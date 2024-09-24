@@ -1,0 +1,52 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"TheLuke013"
+		],
+		"generated_with": {
+			"bridge": [
+				"2.7.36"
+			],
+			"dash": [
+				"0.11.7"
+			]
+		}
+	},
+	"header": {
+		"name": "pack.name",
+		"description": "pack.description",
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
+		"uuid": "8dd5acde-869e-4c2b-8af8-bf16a3fe8af9",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "a45118ac-d84c-4cc1-a4e8-6316368209d5",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "77c82c5f-71e9-4ca4-beab-78466ecd1eea",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	]
+}

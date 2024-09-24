@@ -1,0 +1,93 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "013:generator",
+            "is_summonable": true,
+            "is_spawnable": false,
+            "is_experimental": false
+        },
+        "components": {
+            "minecraft:timer": {
+                "time": [
+                    10,
+                    10
+                ],
+                "looping": false,
+                "time_down_event": {
+                    "event": "013:wait",
+                    "target": "self"
+                }
+            },
+            "minecraft:custom_hit_test": {
+                "hitboxes": [
+                    {
+                        "pivot": [
+                            0,
+                            100,
+                            0
+                        ],
+                        "width": 0,
+                        "height": 0
+                    }
+                ]
+            },
+            "minecraft:damage_sensor": {
+                "triggers": {
+                    "deals_damage": false
+                }
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:collision_box": {
+                "width": 0.0001,
+                "height": 0.0001
+            }
+        },
+        "component_groups": {
+            "013:generate_chunk": {
+                "minecraft:timer": {
+                    "time": [
+                        0,
+                        1
+                    ],
+                    "looping": true,
+                    "time_down_event": {
+                        "event": "013:generate_chunk",
+                        "target": "self"
+                    }
+                }
+            },
+            "013:despawn": {
+                "minecraft:instant_despawn": {}
+            }
+        },
+        "events": {
+            "013:wait": {
+                "add": {
+                    "component_groups": [
+                        "013:generate_chunk"
+                    ]
+                }
+            },
+            "013:despawn": {
+                "add": {
+                    "component_groups": [
+                        "013:despawn"
+                    ]
+                }
+            },
+            "013:generate_chunk": {
+                "queue_command": {
+                    "target": "self",
+                    "command": [
+                        "tag @a[tag=wait_gen] add generate",
+                        "tag @a[tag=generate] remove wait_gen"
+                    ]
+                }
+            }
+        }
+    }
+}

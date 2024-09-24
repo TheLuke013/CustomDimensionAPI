@@ -1,0 +1,14 @@
+{
+	"num_mip_levels": 4,
+	"padding": 8,
+	"resource_pack_name": "Dimension Concept Addon",
+	"texture_name": "atlas.terrain",
+	"texture_data": {
+		"portal_block_1": {
+			"textures": "textures/blocks/portal_1"
+		},
+		"portal_block_2": {
+			"textures": "textures/blocks/portal_2"
+		}
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"format_version": "1.21.10",
+	"minecraft:block": {
+		"description": {
+			"identifier": "013:portal_block_2"
+		},
+		"components": {
+			"minecraft:collision_box": false,
+			"minecraft:destructible_by_mining": false,
+			"minecraft:destructible_by_explosion": {
+				"explosion_resistance": 0
+			},
+			"minecraft:loot": "loot_tables/empty.json",
+			"minecraft:map_color": "#0EAB35",
+			"minecraft:light_emission": 11,
+			"minecraft:flammable": false,
+			"minecraft:geometry": "geometry.horizontal_portal",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "portal_block_2",
+					"render_method": "blend"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,98 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "013:teleporter",
+            "is_summonable": true,
+            "is_spawnable": false,
+            "is_experimental": false
+        },
+        "components": {
+            "minecraft:timer": {
+                "time": [
+                    1,
+                    1
+                ],
+                "looping": false,
+                "time_down_event": {
+                    "event": "013:starting_teleport",
+                    "target": "self"
+                }
+            },
+            "minecraft:custom_hit_test": {
+                "hitboxes": [
+                    {
+                        "pivot": [
+                            0,
+                            100,
+                            0
+                        ],
+                        "width": 0,
+                        "height": 0
+                    }
+                ]
+            },
+            "minecraft:damage_sensor": {
+                "triggers": {
+                    "deals_damage": false
+                }
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:collision_box": {
+                "width": 0.0001,
+                "height": 0.0001
+            }
+        },
+        "component_groups": {
+            "013:starting_teleport": {
+                "minecraft:timer": {
+                    "time": [
+                        4,
+                        4
+                    ],
+                    "looping": false,
+                    "time_down_event": {
+                        "event": "013:teleport",
+                        "target": "self"
+                    }
+                }
+            },
+            "013:despawn": {
+                "minecraft:instant_despawn": {}
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+                    "target": "self",
+                    "command": "effect @p[tag=portal] nausea 10 255 true"
+                }
+            },
+            "013:starting_teleport": {
+                "add": {
+                    "component_groups": [
+                        "013:starting_teleport"
+                    ]
+                },
+                "queue_command": {
+                    "target": "self",
+                    "command": "playsound portal.trigger @p[tag=portal]"
+                }
+            },
+            "013:teleport": {
+                "add": {
+                    "component_groups": [
+                        "013:despawn"
+                    ]
+                },
+                "queue_command": {
+                    "target": "self",
+                    "command": "function dimension_1"
+                }
+            }
+        }
+    }
+}

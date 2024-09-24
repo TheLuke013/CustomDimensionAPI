@@ -1,0 +1,10 @@
+[
+    {
+        "flipbook_texture": "textures/blocks/portal_1",
+        "atlas_tile": "portal_block_1"
+    },
+    {
+        "flipbook_texture": "textures/blocks/portal_2",
+        "atlas_tile": "portal_block_2"
+    }
+]

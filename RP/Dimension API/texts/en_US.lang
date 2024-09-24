@@ -1,0 +1,5 @@
+pack.name=Dimension Concept Addon RP
+pack.description=concept of a dimension
+
+tile.013:portal_block_1.name=Portal Block 1
+tile.013:portal_block_2.name=Portal Block 2

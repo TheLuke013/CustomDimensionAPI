@@ -1,0 +1,93 @@
+{
+	"format_version": "1.21.10",
+	"minecraft:block": {
+		"description": {
+			"identifier": "013:portal_block_1",
+			"traits": {
+				"minecraft:placement_direction": {
+					"enabled_states": [
+						"minecraft:facing_direction"
+					]
+				}
+			}
+		},
+		"permutations": [
+			{
+				"condition": "q.block_state('minecraft:facing_direction') == 'north'",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [
+							0,
+							0,
+							0
+						]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:facing_direction') == 'west'",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [
+							0,
+							90,
+							0
+						]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:facing_direction') == 'south'",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [
+							0,
+							180,
+							0
+						]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:facing_direction') == 'east'",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [
+							0,
+							-90,
+							0
+						]
+					}
+				}
+			}
+		],
+		"components": {
+			"minecraft:collision_box": false,
+			"minecraft:destructible_by_mining": false,
+			"minecraft:destructible_by_explosion": {
+				"explosion_resistance": 0
+			},
+			"minecraft:tick": {
+				"interval_range": [
+					2,
+					5
+				],
+				"looping": true
+			},
+			"minecraft:custom_components": [
+				"013:portal"
+			],
+			"minecraft:loot": "loot_tables/empty.json",
+			"minecraft:map_color": "#2ACDD9",
+			"minecraft:light_emission": 11,
+			"minecraft:flammable": false,
+			"minecraft:geometry": "geometry.vertical_portal",
+			"minecraft:material_instances": {
+				"*": {
+					"render_method": "blend",
+					"texture": "portal_block_1"
+				}
+			}
+		}
+	}
+}
