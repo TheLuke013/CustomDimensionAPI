@@ -6,4 +6,4 @@ import './api/portal/Components.js';
 import './api/dimension/ChunkManager.js';
 
 //EXAMPLE
-import './example/Dimensions.js';
+//import './example/Dimensions.js';

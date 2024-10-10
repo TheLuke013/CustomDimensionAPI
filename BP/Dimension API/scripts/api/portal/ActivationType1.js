@@ -12,10 +12,10 @@ world.afterEvents.itemUseOn.subscribe((event) => {
 
         if (block.typeId == blockType) {
             //detect portal direction and down blocks
-            if (checkDirection(blockType, 0, 1, 0, 0, 0, 0, blockLocation, dimension)) {
+            if (checkDirection(blockType, -1, 1, 0, 1, 0, 0, blockLocation, dimension)) {
                 createPortal1(blockType, blockLocation, dimension);
                 return;
-            } else if (checkDirection(blockType, 0, 0, 0, 0, 0, 1, blockLocation, dimension)) {
+            } else if (checkDirection(blockType, 0, 0, 0, 1, -1, 1, blockLocation, dimension)) {
                 createPortal2(blockType, blockLocation, dimension);
                 return;
             }
@@ -26,7 +26,7 @@ world.afterEvents.itemUseOn.subscribe((event) => {
 function checkDirection(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension) {
     let blocksDetected = detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension);
 
-    if (blocksDetected == 2) {
+    if (blocksDetected >= 3) {
         return true;
     }
 
@@ -39,6 +39,10 @@ function createPortal1(blockType, blockLocation, dimension) {
         detectBlocks(blockType, -1, -1, 1, 3, 0, 0, blockLocation, dimension) == 3 &&
         detectBlocks(blockType, 2, 2, 1, 3, 0, 0, blockLocation, dimension) == 3) {
         fillPortalBlocks(dimension, blockLocation, '013:portal_block_1', -1, 1, 0, 1, 3, 0);
+    } else if (detectBlocks(blockType, 0, 1, 4, 4, 0, 0, blockLocation, dimension) == 2 &&
+        detectBlocks(blockType, -2, -2, 1, 3, 0, 0, blockLocation, dimension) == 3 &&
+        detectBlocks(blockType, 1, 1, 1, 3, 0, 0, blockLocation, dimension) == 3) {
+        fillPortalBlocks(dimension, blockLocation, '013:portal_block_1', -1, 1, 0, 1, 3, 0);
     }
 
     return;
@@ -49,6 +53,10 @@ function createPortal2(blockType, blockLocation, dimension) {
     if (detectBlocks(blockType, 0, 0, 4, 4, 0, 1, blockLocation, dimension) == 2 &&
         detectBlocks(blockType, 0, 0, 1, 3, -1, -1, blockLocation, dimension) == 3 &&
         detectBlocks(blockType, 0, 0, 1, 3, 2, 2, blockLocation, dimension) == 3) {
+        fillPortalBlocksWithDir(dimension, blockLocation, '013:portal_block_1', 0, 1, -1, 0, 3, 1, 'west');
+    } else if (detectBlocks(blockType, 0, 0, 4, 4, 0, 1, blockLocation, dimension) == 2 &&
+        detectBlocks(blockType, 0, 0, 1, 3, -2, -2, blockLocation, dimension) == 3 &&
+        detectBlocks(blockType, 0, 0, 1, 3, 1, 1, blockLocation, dimension) == 3) {
         fillPortalBlocksWithDir(dimension, blockLocation, '013:portal_block_1', 0, 1, -1, 0, 3, 1, 'west');
     }
 
