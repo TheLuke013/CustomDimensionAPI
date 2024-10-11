@@ -1,4 +1,4 @@
-pack.name=Dimension API
+pack.name=Custom Dimension API
 pack.description=An API to create custom dimensions
 
 tile.013:portal_block_1.name=Portal Block 1

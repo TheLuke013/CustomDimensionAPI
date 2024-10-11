@@ -1,20 +1,28 @@
-import { world, system } from '@minecraft/server';
-import { detectBlocks, fillPortalBlocks } from './Utils.js'
+import { world } from '@minecraft/server';
+import { detectBlocks, fillPortalBlocks } from './Utils.js';
+import { PortalManager, PortalType } from './Portal.js';
 
 world.afterEvents.entitySpawn.subscribe((event) => {
     const entity = event.entity;
+    const portalManager = new PortalManager();
 
     if (entity.typeId == 'minecraft:item') {
         const itemComponent = entity.getComponent('minecraft:item').itemStack;
 
-        if (itemComponent.typeId == 'minecraft:emerald') {
-            const entityLoc = entity.location;
-            const dimension = world.getDimension('overworld');
-
-            if (detectBlocks('minecraft:water', -1, 1, 0, 0, -1, 1, entityLoc, dimension) == 9) {
-                fillPortalBlocks(dimension, entityLoc, '013:portal_block_2', -1, 0, -1, 1, 0, 1);
-                dimension.spawnEntity('minecraft:lightning_bolt', entityLoc);
+        portalManager.portals.forEach(portal => {
+            if (portal.type == PortalType.THE_END) {
+                if (itemComponent.typeId == portal.lightWithItem) {
+                    const entityLoc = entity.location;
+                    const dimension = world.getDimension('overworld');
+        
+                    if (detectBlocks(portal.frameBlock, -1, 1, 0, 0, -1, 1, entityLoc, dimension) == 9) {
+                        fillPortalBlocks(dimension, entityLoc, portal.portalBlock, -1, 0, -1, 1, 0, 1);
+                        if (portal.hasLightning) {
+                            dimension.spawnEntity('minecraft:lightning_bolt', entityLoc);
+                        }
+                    }
+                }
             }
-        }
+        });
     }
 });
