@@ -1,12 +1,12 @@
 import { world } from '@minecraft/server';
 import { detectBlocks, fillPortalBlocks, fillPortalBlocksWithDir } from './Utils.js'
-import { PortalManager, PortalType } from './Portal.js';
+import { CustomPortalManager, PortalType } from './CustomPortal.js';
 
 world.afterEvents.itemUseOn.subscribe((event) => {
     const item = event.itemStack;
     const blockLocation = event.block.location;
     const dimension = world.getDimension('overworld');
-    const portalManager = new PortalManager();
+    const portalManager = new CustomPortalManager();
 
     portalManager.portals.forEach(portal => {
         if (portal.type == PortalType.NETHER) {
@@ -17,15 +17,11 @@ world.afterEvents.itemUseOn.subscribe((event) => {
                     //detect portal direction and down blocks
                     if (checkDirection(portal.frameBlock, -1, 1, 0, 1, 0, 0, blockLocation, dimension)) {
                         createPortal1(portal.frameBlock, portal.portalBlock, blockLocation, dimension);
-                        if (portal.hasLightning) {
-                            dimension.spawnEntity('minecraft:lightning_bolt', blockLocation);
-                        }
+                        lightning(portal, dimension);
                         return;
                     } else if (checkDirection(portal.frameBlock, 0, 0, 0, 1, -1, 1, blockLocation, dimension)) {
                         createPortal2(portal.frameBlock, portal.portalBlock, blockLocation, dimension);
-                        if (portal.hasLightning) {
-                            dimension.spawnEntity('minecraft:lightning_bolt', blockLocation);
-                        }
+                        lightning(portal, dimension);
                         return;
                     }
                 }
@@ -33,6 +29,12 @@ world.afterEvents.itemUseOn.subscribe((event) => {
         }
     });
 });
+
+function lightning(portal, dimension) {
+    if (portal.hasLightning) {
+        dimension.spawnEntity('minecraft:lightning_bolt', blockLocation);
+    }
+}
 
 function checkDirection(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension) {
     let blocksDetected = detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension);

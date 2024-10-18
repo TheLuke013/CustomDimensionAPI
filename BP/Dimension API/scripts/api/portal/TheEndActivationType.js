@@ -1,10 +1,10 @@
 import { world } from '@minecraft/server';
 import { detectBlocks, fillPortalBlocks } from './Utils.js';
-import { PortalManager, PortalType } from './Portal.js';
+import { CustomPortalManager, PortalType } from './CustomPortal.js';
 
 world.afterEvents.entitySpawn.subscribe((event) => {
     const entity = event.entity;
-    const portalManager = new PortalManager();
+    const portalManager = new CustomPortalManager();
 
     if (entity.typeId == 'minecraft:item') {
         const itemComponent = entity.getComponent('minecraft:item').itemStack;

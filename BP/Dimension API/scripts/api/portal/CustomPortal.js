@@ -1,4 +1,4 @@
-export class Portal {
+export class CustomPortal {
     constructor(namespace, type, frameBlock, portalBlock, lightWithItem, destDimID, hasLightning) {
         this.namespace = namespace;
         this.type = type;
@@ -10,18 +10,18 @@ export class Portal {
     }
 }
 
-export class PortalManager {
+export class CustomPortalManager {
     constructor() {
-        if (PortalManager.instance) {
-            return PortalManager.instance;
+        if (CustomPortalManager.instance) {
+            return CustomPortalManager.instance;
         }
 
-        PortalManager.instance = this;
+        CustomPortalManager.instance = this;
         this.portals = [];
     }
 
     registerPortal(portal) {
-        if (portal instanceof Portal) {
+        if (portal instanceof CustomPortal) {
             this.portals.push(portal);
         }
     }

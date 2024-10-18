@@ -1,8 +1,8 @@
-import { Portal, PortalManager, PortalType } from '../api/portal/Portal.js';
+import { CustomPortal, CustomPortalManager, PortalType } from '../api/portal/CustomPortal.js';
 
-const portalManager = new PortalManager();
+const portalManager = new CustomPortalManager();
 
-const portal1 = new Portal(
+const portal1 = new CustomPortal(
     '013:portal_1',
     PortalType.NETHER,
     'minecraft:mossy_cobblestone',
@@ -14,7 +14,7 @@ const portal1 = new Portal(
 
 portalManager.registerPortal(portal1);
 
-const portal2 = new Portal(
+const portal2 = new CustomPortal(
     '013:portal_2',
     PortalType.THE_END,
     'minecraft:water',
