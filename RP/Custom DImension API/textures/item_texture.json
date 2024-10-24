@@ -1,0 +1,9 @@
+{
+	"resource_pack_name": "Dimension Concept Addon",
+	"texture_name": "atlas.items",
+	"texture_data": {
+		"custom_ender_eye": {
+            "textures": "textures/items/custom_ender_eye"
+        }
+	}
+}

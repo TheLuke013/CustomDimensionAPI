@@ -9,6 +9,9 @@
 		},
 		"portal_block_2": {
 			"textures": "textures/blocks/portal_2"
+		},
+		"custom_endframe": {
+			"textures": "textures/blocks/custom_endframe"
 		}
 	}
 }

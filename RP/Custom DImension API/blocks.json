@@ -9,5 +9,8 @@
 	},
 	"013:portal_block_2": {
 		"sound": "glass"
+	},
+	"013:custom_endframe": {
+		"sound": "glass"
 	}
 }

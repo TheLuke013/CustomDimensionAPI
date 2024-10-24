@@ -11,4 +11,10 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
             //e.dimension.runCommand(`fill ${loc.x} ${loc.y - 2} ${loc.z} ${loc.x} ${loc.y + 2} ${loc.z} air replace ${e.block.typeId}`);
         }
     });
+
+    initEvent.blockComponentRegistry.registerCustomComponent('013:portal_frame', {
+        onPlayerInteract: e => {
+            world.sendMessage('colocar olho no portal costumizado do end');
+        }
+    });
 });

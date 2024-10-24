@@ -15,11 +15,11 @@ world.afterEvents.itemUseOn.subscribe((event) => {
         
                 if (block.typeId == portal.frameBlock) {
                     //detect portal direction and down blocks
-                    if (checkDirection(portal.frameBlock, -1, 1, 0, 1, 0, 0, blockLocation, dimension)) {
+                    if (detectPortal(portal.frameBlock, -1, 1, 0, 1, 0, 0, blockLocation, dimension)) {
                         createPortal1(portal.frameBlock, portal.portalBlock, blockLocation, dimension);
                         lightning(portal, dimension);
                         return;
-                    } else if (checkDirection(portal.frameBlock, 0, 0, 0, 1, -1, 1, blockLocation, dimension)) {
+                    } else if (detectPortal(portal.frameBlock, 0, 0, 0, 1, -1, 1, blockLocation, dimension)) {
                         createPortal2(portal.frameBlock, portal.portalBlock, blockLocation, dimension);
                         lightning(portal, dimension);
                         return;
@@ -36,7 +36,7 @@ function lightning(portal, dimension) {
     }
 }
 
-function checkDirection(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension) {
+function detectPortal(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension) {
     let blocksDetected = detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, blockLocation, dimension);
 
     if (blocksDetected >= 3) {

@@ -3,3 +3,4 @@ pack.description=An API to create custom dimensions
 
 tile.013:portal_block_1.name=Portal Block 1
 tile.013:portal_block_2.name=Portal Block 2
+tile.013:custom_endframe.name=Custom PortalFrame
