@@ -2,11 +2,7 @@
 	"format_version": "1.21.10",
 	"minecraft:block": {
 		"description": {
-			"identifier": "013:custom_endframe",
-			"menu_category": {
-				"category": "nature",
-				"group": "itemGroup.name.nature"
-			}
+			"identifier": "013:custom_endframe_activated"
 		},
 		"components": {
 			"minecraft:collision_box": {
@@ -33,9 +29,6 @@
 					16
 				]
 			},
-			"minecraft:custom_components": [
-				"013:portal_frame"
-			],
 			"minecraft:destructible_by_mining": false,
 			"minecraft:destructible_by_explosion": {
 				"explosion_resistance": 0
@@ -43,7 +36,7 @@
 			"minecraft:loot": "loot_tables/empty.json",
 			"minecraft:map_color": "#2ACDD9",
 			"minecraft:flammable": false,
-			"minecraft:geometry": "geometry.custom_endframe",
+			"minecraft:geometry": "geometry.custom_endframe_eye",
 			"minecraft:material_instances": {
 				"*": {
 					"render_method": "blend",

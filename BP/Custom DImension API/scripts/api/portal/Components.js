@@ -1,4 +1,5 @@
 import { world } from '@minecraft/server';
+import { CustomPortalManager } from './CustomPortal.js';
 
 world.beforeEvents.worldInitialize.subscribe(initEvent => {
     initEvent.blockComponentRegistry.registerCustomComponent('013:portal', {
@@ -14,7 +15,19 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
 
     initEvent.blockComponentRegistry.registerCustomComponent('013:portal_frame', {
         onPlayerInteract: e => {
-            world.sendMessage('colocar olho no portal costumizado do end');
+            const itemInHand = e.player.getComponent('minecraft:inventory').container.getItem(e.player.selectedSlotIndex);
+
+            if (itemInHand) {
+                const itemName = itemInHand.typeId;
+                const portalManager = new CustomPortalManager();
+
+                portalManager.portals.forEach(portal => {
+                    if (itemName === portal.lightWithItem) {
+                        e.block.setType(`${e.block.typeId}_activated`);
+                        e.dimension.playSound(portal.soundAttachItem, e.block.location);
+                    }
+                });
+            }
         }
     });
 });

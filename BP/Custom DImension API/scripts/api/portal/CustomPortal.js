@@ -7,6 +7,7 @@ export class CustomPortal {
         this.lightWithItem = lightWithItem;
         this.destDimID = destDimID;
         this.hasLightning = hasLightning;
+        this.soundAttachItem = 'block.end_portal_frame.fill';
     }
 }
 

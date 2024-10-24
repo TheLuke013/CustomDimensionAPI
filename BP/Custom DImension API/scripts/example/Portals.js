@@ -19,7 +19,7 @@ const portal2 = new CustomPortal(
     PortalType.THE_END,
     'minecraft:water',
     '013:portal_block_2',
-    'minecraft:emerald',
+    '013:custom_ender_eye',
     '013:dimension_2',
     true
 );
