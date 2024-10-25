@@ -17,11 +17,11 @@ portalManager.registerPortal(portal1);
 const portal2 = new CustomPortal(
     '013:portal_2',
     PortalType.THE_END,
-    'minecraft:water',
+    '013:custom_endframe_activated',
     '013:portal_block_2',
     '013:custom_ender_eye',
     '013:dimension_2',
-    true
+    false
 );
 
 portalManager.registerPortal(portal2);

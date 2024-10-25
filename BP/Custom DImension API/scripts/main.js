@@ -1,6 +1,5 @@
 //CUSTOM DIMENSION API
-import './api/portal/NetherActivationType.js';
-import './api/portal/TheEndActivationType.js';
+import './api/portal/PortalActivation.js';
 import './api/portal/Behaviors.js';
 import './api/portal/Components.js';
 import './api/portal/CustomPortal.js';

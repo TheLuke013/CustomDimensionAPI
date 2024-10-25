@@ -12,5 +12,8 @@
 	},
 	"013:custom_endframe": {
 		"sound": "glass"
+	},
+	"013:custom_endframe_activated": {
+		"sound": "glass"
 	}
 }

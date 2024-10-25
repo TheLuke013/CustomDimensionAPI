@@ -1,3 +1,5 @@
+const replaceableBlocks = ['air', 'fire', 'water', 'lava', 'flowing_water', 'flowing_lava'];
+
 export function detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
     let blocksDetected = 0;
 
@@ -17,20 +19,44 @@ export function detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, entr
     return blocksDetected;
 }
 
+export function placeBlocks(current, update, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
+    for (let x = xMin; x <= xMax; x++) {
+        for (let y = yMin; y <= yMax; y++) {
+            for (let z = zMin; z <= zMax; z++) {
+                const blockLoc = { x: entryLoc.x + x, y: entryLoc.y + y, z: entryLoc.z + z };
+                const block = dimension.getBlock(blockLoc);
+
+                if (block && block.typeId == current) {
+                    dimension.setBlockType(blockLoc, update);
+                }
+            }
+        }
+    }
+}
+
+export function placeBlocks2(blockToPlace, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
+    for (let x = xMin; x <= xMax; x++) {
+        for (let y = yMin; y <= yMax; y++) {
+            for (let z = zMin; z <= zMax; z++) {
+                const blockLoc = { x: entryLoc.x + x, y: entryLoc.y + y, z: entryLoc.z + z };
+                dimension.setBlockType(blockLoc, blockToPlace);
+            }
+        }
+    }
+}
+
+function replaceBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, replacements, extra = '') {
+    replacements.forEach(replaceBlock => {
+        dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ${extra} replace ${replaceBlock}`);
+    });
+}
+
 export function fillPortalBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2) {
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace air`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace fire`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace water`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace lava`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace flowing_water`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} replace flowing_lava`);
+    replaceBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, replaceableBlocks);
 }
 
 export function fillPortalBlocksWithDir(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, direction) {
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace air`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace fire`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace water`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace lava`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace flowing_water`);
-    dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ["minecraft:facing_direction"="${direction}"] replace flowing_lava`);
+    const extra = `["minecraft:facing_direction"="${direction}"]`;
+    replaceBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, replaceableBlocks, extra);
 }
+
