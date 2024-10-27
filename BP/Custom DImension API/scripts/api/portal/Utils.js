@@ -34,17 +34,6 @@ export function placeBlocks(current, update, xMin, xMax, yMin, yMax, zMin, zMax,
     }
 }
 
-export function placeBlocks2(blockToPlace, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
-    for (let x = xMin; x <= xMax; x++) {
-        for (let y = yMin; y <= yMax; y++) {
-            for (let z = zMin; z <= zMax; z++) {
-                const blockLoc = { x: entryLoc.x + x, y: entryLoc.y + y, z: entryLoc.z + z };
-                dimension.setBlockType(blockLoc, blockToPlace);
-            }
-        }
-    }
-}
-
 function replaceBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, replacements, extra = '') {
     replacements.forEach(replaceBlock => {
         dimension.runCommand(`fill ${blockLocation.x + x1} ${blockLocation.y + y1} ${blockLocation.z + z1} ${blockLocation.x + x2} ${blockLocation.y + y2} ${blockLocation.z + z2} ${blockToFill} ${extra} replace ${replaceBlock}`);
@@ -58,5 +47,22 @@ export function fillPortalBlocks(dimension, blockLocation, blockToFill, x1, y1, 
 export function fillPortalBlocksWithDir(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, direction) {
     const extra = `["minecraft:facing_direction"="${direction}"]`;
     replaceBlocks(dimension, blockLocation, blockToFill, x1, y1, z1, x2, y2, z2, replaceableBlocks, extra);
+}
+
+export function fillPortalBlocksSmart(blockToFill, interruptBlock, dimension, entryLoc, xMin, xMax, yMin, yMax, zMin, zMax) {
+    for (let x = xMin; x <= xMax; x++) {
+        for (let y = yMin; y <= yMax; y++) {
+            for (let z = zMin; z <= zMax; z++) {
+                const blockLoc = { x: entryLoc.x + x, y: entryLoc.y + y, z: entryLoc.z + z };
+                const block = dimension.getBlock(blockLoc);
+
+                if (block && block.typeId == 'minecraft:air') {
+                    dimension.setBlockType(blockLoc, blockToFill);
+                } else if (block && block.typeId == interruptBlock) {
+                    break;
+                }
+            }
+        }
+    }
 }
 
