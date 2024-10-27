@@ -5,6 +5,18 @@
 			"identifier": "013:portal_block_2"
 		},
 		"components": {
+			"minecraft:selection_box": {
+				"origin": [
+					-8,
+					0,
+					-8
+				],
+				"size": [
+					16,
+					12,
+					16
+				]
+			},
 			"minecraft:collision_box": false,
 			"minecraft:destructible_by_mining": false,
 			"minecraft:destructible_by_explosion": {

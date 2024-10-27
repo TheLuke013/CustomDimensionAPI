@@ -12,7 +12,7 @@ export class CustomDimension {
 export class CustomDimensionManager {
     constructor() {
         if (CustomDimensionManager.instance) {
-            return DimensionManager.instance;
+            return CustomDimensionManager.instance;
         }
 
         CustomDimensionManager.instance = this;

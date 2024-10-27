@@ -100,7 +100,6 @@ function createEndPortal1(portal, blockLocation, dimension) {
         const framePos = detectFramePosition(portal.frameBlock, 0, 3, 0, 0, 0, 0, blockLocation, dimension);
         if (framePos == 1) {
             fillPortalBlocksSmart(portal.portalBlock, portal.frameBlock, dimension, blockLocation, -2, 1, 0, 0, 1, 3);
-            world.sendMessage('correct');
         } else if (framePos == 2) {
             fillPortalBlocksSmart(portal.portalBlock, portal.frameBlock, dimension, blockLocation, -1, 2, 0, 0, 1, 3);
         } else if (framePos == 3) {
