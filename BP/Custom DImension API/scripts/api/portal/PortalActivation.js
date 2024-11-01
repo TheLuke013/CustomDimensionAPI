@@ -1,5 +1,5 @@
 import { world } from '@minecraft/server';
-import { detectBlocks, fillPortalBlocks, fillPortalBlocksWithDir, fillPortalBlocksSmart } from './Utils.js'
+import { detectBlocks, fillPortalBlocks, fillPortalBlocksWithDir, fillPortalBlocksSmart } from '../utils/Utils.js';
 import { CustomPortalManager, PortalType } from './CustomPortal.js';
 
 world.afterEvents.itemUseOn.subscribe((event) => {

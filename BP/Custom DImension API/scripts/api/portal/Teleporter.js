@@ -1,7 +1,8 @@
 import { system, world } from '@minecraft/server';
-import { detectBlocks } from './Utils.js';
+import { detectBlocks } from '../utils/Utils.js';
 import { CustomPortalManager, PortalType } from './CustomPortal.js';
 import { CustomDimensionManager } from '../dimension/CustomDimension.js';
+import { SimpleVector3 } from '../utils/SimpleVector3.js';
 
 let currentTime = 0;
 const targetTime = 5;
@@ -18,27 +19,29 @@ system.runInterval(() => {
             const location = player.location;
 
             if (detectBlocks(portal.portalBlock, 0, 0, 0, 0, 0, 0, location, dimension) &&
-            player.getTags() != `portal_${portal.destDimID}` && player.getTags() != 'back_to_home') {
-                player.addTag(`portal_${portal.destDimID}`);
-                let dimensionLoc = [0, 0, 0];
-
+                player.getTags() != 'back_to_home') {
+                let dimensionLoc = new SimpleVector3();
+                
+                //search dimension by namespace
                 dimManager.dimensions.forEach(dimension => {
                     if (dimension.namespace == portal.destDimID) {
-                        dimensionLoc[0] = dimension.location[0];
-                        dimensionLoc[1] = dimension.location[1];
-                        dimensionLoc[2] = dimension.location[2];
-                    } else {
-                        world.sendMessage(`Dimension ${portal.destDimID} not found`);
+                        dimensionLoc.x = dimension.location.x;
+                        dimensionLoc.y = dimension.location.y;
+                        dimensionLoc.z = dimension.location.z;
                     }
                 });
 
                 if (portal.type == PortalType.NETHER) {
-                    teleportTimer(player, dimensionLoc);
+                    teleportTimer(player, dimensionLoc, portal.destDimID);
                 } else if (portal.type == PortalType.THE_END) {
-                    teleportToDimension(player, dimensionLoc);
+                    teleportToDimension(player, dimensionLoc, portal.destDimID);
+                }
+
+                if (portal.type == PortalType.NETHER && currentTime == targetTime - 1 || portal.type == PortalType.THE_END) {
+                    player.addTag(`generate_dimension_${portal.destDimID}`);
                 }
             } else if (detectBlocks(portal.portalBlock, 0, 0, 0, 0, 0, 0, location, dimension) &&
-            player.getTags() != `portal_${portal.destDimID}` && player.getTags() == 'back_to_home') {
+                player.getTags() == 'back_to_home') {
                 world.sendMessage('Backing to home...');
             }
         })
@@ -46,7 +49,11 @@ system.runInterval(() => {
 }, 20);
 
 function teleportToDimension(player, dimensionLoc) {
-    player.teleport({x: dimensionLoc[0], y: dimensionLoc[1], z: dimensionLoc[2]});
+    player.addEffect('minecraft:slow_falling', 180, {
+        amplifier: 255,
+        showParticles: false
+    });
+    player.teleport({ x: dimensionLoc.x, y: dimensionLoc.y + 5, z: dimensionLoc.z });
 }
 
 function teleportTimer(player, dimensionLoc) {

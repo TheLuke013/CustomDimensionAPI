@@ -25,7 +25,7 @@ export class ChunkGenerator {
           if (y === this.groundLevel) {
             dimension.setBlockType(blockLoc, baseMaterial);
           }
-          else if (y < heightMap - 4) {
+          else if (y < heightMap - 3) {
             dimension.setBlockType(blockLoc, foundationMaterial);
           }
           else if (y >= heightMap - 3 && y < heightMap) {

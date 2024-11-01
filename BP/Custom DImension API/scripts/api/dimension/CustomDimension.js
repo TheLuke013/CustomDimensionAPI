@@ -1,11 +1,29 @@
+import { generateRandomSeed } from "../utils/Utils";
+
 export class CustomDimension {
-    constructor(namespace, topMat, midMat, bottomMat, baseMat, location) {
+    constructor(namespace, terrainMaterials, location, maxChunks) {
         this.namespace = namespace;
+        this.terrainMaterials = terrainMaterials
+        this.location = location;
+        this.maxChunks = maxChunks
+        this.seed = generateRandomSeed();
+
+        if (this.maxChunks > 64) {
+            this.maxChunks = 64;
+        }
+    }
+}
+
+export class TerrainMaterials {
+    constructor(
+        topMat = 'minecraft:grass_block',
+        midMat = 'minecraft:dirt',
+        bottomMat = 'minecraft:stone',
+        baseMat = 'minecraft:bedrock') {
         this.topMaterial = topMat;
         this.midMaterial = midMat;
         this.bottomMaterial = bottomMat;
         this.baseMaterial = baseMat;
-        this.location = location;
     }
 }
 

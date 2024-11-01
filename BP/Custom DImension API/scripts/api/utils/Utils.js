@@ -66,3 +66,6 @@ export function fillPortalBlocksSmart(blockToFill, interruptBlock, dimension, en
     }
 }
 
+export function generateRandomSeed() {
+    return Math.floor(Math.random() * (2 ** 32)) - 2 ** 31;
+}
