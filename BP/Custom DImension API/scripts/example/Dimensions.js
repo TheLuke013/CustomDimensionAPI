@@ -9,7 +9,7 @@ const dimension1 = new CustomDimension(
     '013:dimension_1',
     new TerrainMaterials(),
     new SimpleVector3(-10000, 264, -10000),
-    9
+    72
 );
 
 dimManager.registerDimension(dimension1);
@@ -25,7 +25,7 @@ const dimension2 = new CustomDimension(
         'minecraft:bedrock'
     ),
     new SimpleVector3(10000, 264, 10000),
-    9
+    72
 );
 
 dimManager.registerDimension(dimension2);

@@ -19,7 +19,7 @@ system.runInterval(() => {
             const location = player.location;
 
             if (detectBlocks(portal.portalBlock, 0, 0, 0, 0, 0, 0, location, dimension) &&
-                player.getTags() != 'back_to_home') {
+                !player.getTags().includes('back_to_home')) {
                 let dimensionLoc = new SimpleVector3();
                 
                 //search dimension by namespace
@@ -38,10 +38,13 @@ system.runInterval(() => {
                 }
 
                 if (portal.type == PortalType.NETHER && currentTime == targetTime - 1 || portal.type == PortalType.THE_END) {
-                    player.addTag(`generate_dimension_${portal.destDimID}`);
+                    if (!player.getTags().includes(`${portal.destDimID}_generated`))
+                    {
+                        player.addTag(`generate_dimension_${portal.destDimID}`);
+                    }
                 }
             } else if (detectBlocks(portal.portalBlock, 0, 0, 0, 0, 0, 0, location, dimension) &&
-                player.getTags() == 'back_to_home') {
+                player.getTags().includes('back_to_home')) {
                 world.sendMessage('Backing to home...');
             }
         })

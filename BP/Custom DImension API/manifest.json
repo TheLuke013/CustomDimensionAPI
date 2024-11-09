@@ -42,7 +42,7 @@
 			"type": "script",
 			"language": "javascript",
 			"uuid": "720b7b9e-ccd6-46db-9a9c-3eddf0844135",
-			"entry": "scripts/main.js",
+			"entry": "scripts/DimensionAPI.js",
 			"version": [
 				1,
 				0,

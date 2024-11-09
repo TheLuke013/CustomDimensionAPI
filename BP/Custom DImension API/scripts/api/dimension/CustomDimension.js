@@ -7,10 +7,8 @@ export class CustomDimension {
         this.location = location;
         this.maxChunks = maxChunks
         this.seed = generateRandomSeed();
-
-        if (this.maxChunks > 64) {
-            this.maxChunks = 64;
-        }
+        this.generatedChunks = 0;
+        this.terrainGenerated = false;
     }
 }
 
