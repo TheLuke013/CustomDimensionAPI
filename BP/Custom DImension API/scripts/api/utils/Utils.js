@@ -19,16 +19,12 @@ export function detectBlocks(blockType, xMin, xMax, yMin, yMax, zMin, zMax, entr
     return blocksDetected;
 }
 
-export function placeBlocks(current, update, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
+export function placeBlocks(block, xMin, xMax, yMin, yMax, zMin, zMax, entryLoc, dimension) {
     for (let x = xMin; x <= xMax; x++) {
         for (let y = yMin; y <= yMax; y++) {
             for (let z = zMin; z <= zMax; z++) {
                 const blockLoc = { x: entryLoc.x + x, y: entryLoc.y + y, z: entryLoc.z + z };
-                const block = dimension.getBlock(blockLoc);
-
-                if (block && block.typeId == current) {
-                    dimension.setBlockType(blockLoc, update);
-                }
+                dimension.setBlockType(blockLoc, block);
             }
         }
     }

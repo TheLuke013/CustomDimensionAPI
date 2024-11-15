@@ -1,6 +1,8 @@
 import { system, world } from '@minecraft/server';
 import { ChunkGenerator } from './ChunkGenerator.js';
 import { CustomDimensionManager } from './CustomDimension.js';
+import { GenerateNetherPortal, GenerateTheEndPortal } from './PortalGenerator.js';
+import { CustomPortalManager, PortalType } from '../portal/CustomPortal.js';
 
 system.runInterval(() => {
     const player = world.getPlayers();
@@ -19,6 +21,7 @@ system.runInterval(() => {
             }
 
             if (player.getTags().includes(`generate_${dim.namespace}`) && dim.generatedChunks == 1) {
+                generatePortal(dim.namespace, player.location, dimension);
                 player.playSound('portal.travel');
             }
 
@@ -37,6 +40,21 @@ system.runInterval(() => {
         });
     });
 });
+
+function generatePortal(dimNamespace, playerLoc, dimension) {
+    const portalManager = new CustomPortalManager();
+    const portalLoc = { x: playerLoc.x + 1, y: playerLoc.y - 1, z: playerLoc.z + 1 };
+
+    portalManager.portals.forEach(portal => {
+        if (portal.destDimID == dimNamespace) {
+            if (portal.type == PortalType.NETHER) {
+                GenerateNetherPortal(portal.portalBlock, portal.frameBlock, portalLoc, dimension);
+            } else if (portal.type == PortalType.THE_END) {
+                GenerateTheEndPortal(portal.portalBlock, portal.frameBlock, portalLoc, dimension);
+            }
+        }
+    });
+}
 
 function generateDimChunk(overworldDim, dimension) {
     //world.sendMessage(`Chunks geradas: ${dimension.generatedChunks}`);
