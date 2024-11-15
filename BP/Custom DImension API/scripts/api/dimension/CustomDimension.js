@@ -1,7 +1,7 @@
 import { generateRandomSeed } from "../utils/Utils";
 
 export class CustomDimension {
-    constructor(namespace, terrainMaterials, location, maxChunks) {
+    constructor(namespace, terrainMaterials, location, maxChunks, frequency = 0.02) {
         this.namespace = namespace;
         this.terrainMaterials = terrainMaterials
         this.location = location;
@@ -9,6 +9,7 @@ export class CustomDimension {
         this.seed = generateRandomSeed();
         this.generatedChunks = 0;
         this.terrainGenerated = false;
+        this.frequency = frequency;
     }
 }
 

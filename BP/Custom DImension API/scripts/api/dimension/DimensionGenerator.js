@@ -18,8 +18,11 @@ system.runInterval(() => {
                 generateDimChunk(dimension, dim);
             }
 
-            if (dim.generatedChunks >= dim.maxChunks) {
+            if (player.getTags().includes(`generate_${dim.namespace}`) && dim.generatedChunks == 1) {
                 player.playSound('portal.travel');
+            }
+
+            if (dim.generatedChunks >= dim.maxChunks) {
                 player.removeTag(`generate_${dim.namespace}`);
                 player.addTag(`${dim.namespace}_generated`);
                 dim.generatedChunks = 0;
@@ -36,9 +39,9 @@ system.runInterval(() => {
 });
 
 function generateDimChunk(overworldDim, dimension) {
-    world.sendMessage(`Chunks geradas: ${dimension.generatedChunks}`);
+    //world.sendMessage(`Chunks geradas: ${dimension.generatedChunks}`);
     const mat = dimension.terrainMaterials;
-    const generator = new ChunkGenerator(16, 64, dimension.seed, 0.02);
+    const generator = new ChunkGenerator(16, 64, dimension.seed, dimension.frequency);
     const chunkPositions = generateChunkPositions(dimension);
 
     generator.generate(
