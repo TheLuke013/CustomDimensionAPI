@@ -11,3 +11,4 @@ import './api/dimension/VanillaOres.js';
 //EXAMPLE
 import './example/Dimensions.js';
 import './example/Portals.js';
+import './example/Ores.js';

@@ -41,7 +41,7 @@ export class ChunkGenerator {
           }
 
           //generate ores
-          this.generateOres(dimension.canGenerateVanillaOres, x, y, z, overworldDim, blockLoc);
+          this.generateOres(dimension.canGenerateVanillaOres, x, y, z, overworldDim, blockLoc, dimension.namespace);
         }
       }
     }
@@ -62,7 +62,7 @@ export class ChunkGenerator {
     }
   }
 
-  generateOres(canGenerateVanillaOres, x, y, z, overworldDim, blockLoc) {
+  generateOres(canGenerateVanillaOres, x, y, z, overworldDim, blockLoc, dimNamespace) {
     const featuresManager = new FeaturesManager();
 
     //generate vanilla ores if true
@@ -74,7 +74,9 @@ export class ChunkGenerator {
 
     //generate custom ores
     featuresManager.oreFeatures.forEach(ore => {
-      ore.generate(this.seed, x, y, z, overworldDim, blockLoc);
+      if (ore.dimension === dimNamespace) {
+        ore.generate(this.seed, x, y, z, overworldDim, blockLoc);
+      }
     });
   }
 }

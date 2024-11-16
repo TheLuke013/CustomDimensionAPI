@@ -12,8 +12,6 @@ const dimension1 = new CustomDimension(
     6
 );
 
-dimManager.registerDimension(dimension1);
-
 //DIMENSION 2
 
 const dimension2 = new CustomDimension(
@@ -25,7 +23,9 @@ const dimension2 = new CustomDimension(
         'minecraft:bedrock'
     ),
     new SimpleVector3(10000, 264, 10000),
-    72
+    2
 );
+dimension2.canGenerateVanillaOres = false;
 
+dimManager.registerDimension(dimension1);
 dimManager.registerDimension(dimension2);
