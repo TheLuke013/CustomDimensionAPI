@@ -4,6 +4,8 @@ import { CustomDimensionManager } from './CustomDimension.js';
 import { GenerateNetherPortal, GenerateTheEndPortal } from './PortalGenerator.js';
 import { CustomPortalManager, PortalType } from '../portal/CustomPortal.js';
 
+let generator = new ChunkGenerator(16, 16, 0, 0);
+
 system.runInterval(() => {
     const player = world.getPlayers();
     const dimension = world.getDimension('overworld');
@@ -57,17 +59,17 @@ function generatePortal(dimNamespace, playerLoc, dimension) {
 }
 
 function generateDimChunk(overworldDim, dimension) {
-    //world.sendMessage(`Chunks geradas: ${dimension.generatedChunks}`);
-    const mat = dimension.terrainMaterials;
-    const generator = new ChunkGenerator(16, 64, dimension.seed, dimension.frequency);
-    const chunkPositions = generateChunkPositions(dimension);
+    //configure generator
+    generator.seed = dimension.seed;
+    generator.frequency = dimension.frequency;
 
-    generator.generate(
-        chunkPositions[dimension.generatedChunks][0],
-        chunkPositions[dimension.generatedChunks][1],
-        chunkPositions[dimension.generatedChunks][2],
-        overworldDim, mat.topMaterial, mat.midMaterial, mat.bottomMaterial, mat.baseMaterial);
+    //generate and get chunk positions
+    if (!dimension.chunkPosGenerated) {
+        dimension.chunkPositions = generateChunkPositions(dimension);
+        dimension.chunkPosGenerate = true;
+    }
 
+    generator.generate(overworldDim, dimension);
     dimension.generatedChunks++;
 }
 

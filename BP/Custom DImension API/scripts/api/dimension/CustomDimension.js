@@ -10,6 +10,10 @@ export class CustomDimension {
         this.generatedChunks = 0;
         this.terrainGenerated = false;
         this.frequency = frequency;
+        this.chunkPositions = [];
+        this.chunkPosGenerated = false;
+        this.canGenerateTerrain = true;
+        this.canGenerateVanillaOres = true;
     }
 }
 
