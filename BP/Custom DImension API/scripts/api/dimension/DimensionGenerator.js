@@ -23,7 +23,7 @@ system.runInterval(() => {
             }
 
             if (player.getTags().includes(`generate_${dim.namespace}`) && dim.generatedChunks == 1) {
-                generatePortal(dim.namespace, player.location, dimension);
+                generatePortal(dim.namespace, dim.location, dimension);
                 player.playSound('portal.travel');
             }
 
@@ -43,9 +43,9 @@ system.runInterval(() => {
     });
 });
 
-function generatePortal(dimNamespace, playerLoc, dimension) {
+function generatePortal(dimNamespace, location, dimension) {
     const portalManager = new CustomPortalManager();
-    const portalLoc = { x: playerLoc.x + 1, y: playerLoc.y - 1, z: playerLoc.z + 1 };
+    const portalLoc = { x: location.x + 1, y: location.y - 1, z: location.z + 1 };
 
     portalManager.portals.forEach(portal => {
         if (portal.destDimID == dimNamespace) {

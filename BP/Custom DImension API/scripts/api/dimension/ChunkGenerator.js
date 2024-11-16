@@ -1,4 +1,5 @@
 import FastNoiseLite from './FastNoiseLite.js';
+import { FeaturesManager } from './FeaturesManager.js';
 
 export class ChunkGenerator {
   constructor(dimensionSize, dimensionHeight, seed, frequency) {
@@ -62,17 +63,18 @@ export class ChunkGenerator {
   }
 
   generateOres(canGenerateVanillaOres, x, y, z, overworldDim, blockLoc) {
-    //configure noise to ores
-    const noise = new FastNoiseLite();
-    noise.SetSeed(this.seed);
-    noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-    noise.SetFrequency(0.1);
-    const noiseValue = noise.GetNoise(x, y, z);
+    const featuresManager = new FeaturesManager();
 
-    if (noiseValue > 0.5) {
-
-      const blockType = noiseValue > 0.7 ? "minecraft:diamond_ore" : "minecraft:iron_ore";
-      overworldDim.setBlockType(blockLoc, blockType);
+    //generate vanilla ores if true
+    if (canGenerateVanillaOres) {
+      featuresManager.vanillaOreFeatures.forEach(vanillaOre => {
+        vanillaOre.generate(this.seed, x, y, z, overworldDim, blockLoc);
+      });
     }
+
+    //generate custom ores
+    featuresManager.oreFeatures.forEach(ore => {
+      ore.generate(this.seed, x, y, z, overworldDim, blockLoc);
+    });
   }
 }
