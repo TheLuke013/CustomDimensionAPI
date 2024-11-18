@@ -8,17 +8,22 @@ export class ChunkGenerator {
     this.groundLevel = -64;
     this.seed = seed;
     this.frequency = frequency;
+
+    //dimension properties
+    this.xOffset = 0;
+    this.yOffset = 0;
+    this.zOffset = 0;
   }
 
-  generate(overworldDim, dimension) {
+  generateData(overworldDim, dimension, chunk) {
     //get dimension properties
     const mat = dimension.terrainMaterials;
-    let xOffset = dimension.chunkPositions[dimension.generatedChunks][0];
-    let yOffset = dimension.chunkPositions[dimension.generatedChunks][1];
-    let zOffset = dimension.chunkPositions[dimension.generatedChunks][2];
-    let topMaterial = mat.topMaterial; 
-    let midMaterial = mat.midMaterial; 
-    let foundationMaterial = mat.bottomMaterial; 
+    this.xOffset = dimension.chunkPositions[dimension.generatedChunksData][0];
+    this.yOffset = dimension.chunkPositions[dimension.generatedChunksData][1];
+    this.zOffset = dimension.chunkPositions[dimension.generatedChunksData][2];
+    let topMaterial = mat.topMaterial;
+    let midMaterial = mat.midMaterial;
+    let foundationMaterial = mat.bottomMaterial;
     let baseMaterial = mat.baseMaterial;
 
     //configure noise
@@ -30,53 +35,55 @@ export class ChunkGenerator {
     for (let x = 0; x <= this.dimensionSize; x++) {
       for (let z = 0; z <= this.dimensionSize; z++) {
 
-        const heightMap = Math.floor(noise.GetNoise(x + xOffset, z + zOffset) * 0.5 * this.heightScale);
-        
+        const heightMap = Math.floor(noise.GetNoise(x + this.xOffset, z + this.zOffset) * 0.5 * this.heightScale);
+
         for (let y = this.groundLevel; y <= heightMap; y++) {
-          const blockLoc = { x: xOffset + x, y: yOffset + y, z: zOffset + z };
+          const blockLoc = { x: this.xOffset + x, y: this.yOffset + y, z: this.zOffset + z };
 
           //generate terrain
           if (dimension.canGenerateTerrain) {
-            this.generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim);
+            this.generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim, chunk);
           }
 
           //generate ores
-          this.generateOres(dimension.canGenerateVanillaOres, x, y, z, overworldDim, blockLoc, dimension.namespace);
+          this.generateOres(dimension, x, y, z, overworldDim, blockLoc, dimension.namespace, chunk);
         }
       }
     }
   }
 
-  generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim) {
+  generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim, chunk) {
     if (y === this.groundLevel) {
-      overworldDim.setBlockType(blockLoc, baseMaterial);
+      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, baseMaterial);
     }
     else if (y < heightMap - 3) {
-      overworldDim.setBlockType(blockLoc, foundationMaterial);
+      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, foundationMaterial);
     }
     else if (y >= heightMap - 3 && y < heightMap) {
-      overworldDim.setBlockType(blockLoc, midMaterial);
+      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, midMaterial);
     }
     else if (y === heightMap) {
-      overworldDim.setBlockType(blockLoc, topMaterial);
+      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, topMaterial);
     }
   }
 
-  generateOres(canGenerateVanillaOres, x, y, z, overworldDim, blockLoc, dimNamespace) {
+  generateOres(dimension, x, y, z, overworldDim, blockLoc, dimNamespace, chunk) {
     const featuresManager = new FeaturesManager();
 
     //generate vanilla ores if true
-    if (canGenerateVanillaOres) {
+    if (dimension.canGenerateVanillaOres) {
       featuresManager.vanillaOreFeatures.forEach(vanillaOre => {
-        vanillaOre.generate(this.seed, x, y, z, overworldDim, blockLoc);
+        vanillaOre.generate(this.seed, x, y, z, overworldDim, blockLoc, chunk);
       });
     }
 
     //generate custom ores
-    featuresManager.oreFeatures.forEach(ore => {
-      if (ore.dimension === dimNamespace) {
-        ore.generate(this.seed, x, y, z, overworldDim, blockLoc);
-      }
-    });
+    if (dimension.canGenerateCustomOres) {
+      featuresManager.oreFeatures.forEach(ore => {
+        if (ore.dimension === dimNamespace) {
+          ore.generate(this.seed, x, y, z, overworldDim, blockLoc, chunk);
+        }
+      });
+    }
   }
 }

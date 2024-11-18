@@ -12,17 +12,17 @@ export class OreFeature {
         this.noise = new FastNoiseLite();
     }
 
-    generate(seed, x, y, z, overworldDim, blockLoc) {
+    generate(seed, x, y, z, overworldDim, blockLoc, chunk) {
         this.noise.SetSeed(seed);
         this.noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
         this.noise.SetFrequency(this.frequency);
         const noiseValue = this.noise.GetNoise(x, y, z);
 
         if (y >= this.yMin && y <= this.yMax && noiseValue > this.noiseThreshold) {
-            const block = overworldDim.getBlock(blockLoc);
+            const block = chunk.getBlock(blockLoc.x, blockLoc.y, blockLoc.z);
 
-                if (block && block.typeId == this.mayReplace) {
-                    overworldDim.setBlockType(blockLoc, this.placesBlock);
+                if (block && block.namespace == this.mayReplace) {
+                    chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, this.placesBlock);
                 }
         }        
     }
