@@ -11,7 +11,7 @@ const dimManager = new CustomDimensionManager();
 const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
   new TerrainMaterials(),
-  new SimpleVector3(-10000, 264, -10000),
+  new SimpleVector3(0, 64, 0),
   25,
 );
 
@@ -24,7 +24,7 @@ const dimension2 = new CustomDimension(
     "minecraft:end_stone",
     "minecraft:bedrock",
   ),
-  new SimpleVector3(10000, 264, 10000),
+  new SimpleVector3(0, 64, 0),
   25,
 );
 

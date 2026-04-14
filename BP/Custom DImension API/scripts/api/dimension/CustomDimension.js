@@ -1,12 +1,19 @@
-import { world } from "@minecraft/server";
+import { world, system } from "@minecraft/server";
 import { generateRandomSeed } from "../utils/Utils";
 import { ChunkGenerator } from "./ChunkGenerator";
 
+system.beforeEvents.startup.subscribe((event) => {
+    const dimManager = new CustomDimensionManager();
+    dimManager.dimensions.forEach((dim) => {
+        event.dimensionRegistry.registerCustomDimension(dim.namespace);
+    });
+});
+
 export class CustomDimension {
-    constructor(namespace, terrainMaterials, location, maxChunks, frequency = 0.02) {
+    constructor(namespace, terrainMaterials, spawnLoc, maxChunks, frequency = 0.02) {
         this.namespace = namespace;
         this.terrainMaterials = terrainMaterials
-        this.location = location;
+        this.spawnLoc = spawnLoc;
         this.maxChunks = maxChunks
         this.seed = generateRandomSeed();
         this.generatedChunks = 0;

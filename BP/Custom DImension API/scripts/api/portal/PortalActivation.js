@@ -2,11 +2,32 @@ import { world } from '@minecraft/server';
 import { detectBlocks, fillPortalBlocks, fillPortalBlocksWithDir, fillPortalBlocksSmart } from '../utils/Utils.js';
 import { CustomPortalManager, PortalType } from './CustomPortal.js';
 
+const portalManager = new CustomPortalManager();
+
+let lastPlayerBreak = '';
+let lastPortalBreak = '';
+
+world.beforeEvents.playerBreakBlock.subscribe((e) => {
+    if (!portalManager.getPortalByBlock(e.block.typeId)) return;
+    lastPlayerBreak = e.player.id;
+    lastPortalBreak = e.block.typeId;
+})
+
+world.afterEvents.playerBreakBlock.subscribe((e) => {
+    const loc = e.block.location;
+    const dim = e.dimension;
+    const player = e.player;
+
+    if (!portalManager.getPortalByBlock(lastPortalBreak) && !player.id !== lastPlayerBreak) return;
+    dim.runCommand(`fill ${loc.x - 3} ${loc.y - 4} ${loc.z - 3} ${loc.x + 3} ${loc.y + 4} ${loc.z + 3} air replace ${lastPortalBreak}`);
+    lastPlayerBreak = '';
+    lastPortalBreak = '';
+})
+
 world.afterEvents.itemStartUseOn.subscribe((event) => {
     const item = event.itemStack;
     const blockLocation = event.block.location;
-    const dimension = world.getDimension('overworld');
-    const portalManager = new CustomPortalManager();
+    const dimension = event.block.dimension;
 
     portalManager.portals.forEach(portal => {
         //NETHER TYPE

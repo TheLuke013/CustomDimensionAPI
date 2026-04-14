@@ -1,15 +1,30 @@
-import { system } from '@minecraft/server';
+import { system, world } from '@minecraft/server';
 import { CustomPortalManager } from './CustomPortal.js';
+
+const portalManager = new CustomPortalManager();
 
 system.beforeEvents.startup.subscribe(initEvent => {
     initEvent.blockComponentRegistry.registerCustomComponent('custom_dim:portal_block', {
         onRandomTick: e => {
             e.dimension.playSound('portal.portal', e.block.location);
         },
+        onTick: e => {
+            const dim = e.dimension;
+            const loc = e.block.location;
+            const mobs = dim.getEntities({
+                location: loc,
+                maxDistance: 1.0,
+                excludeTags: ['teleporting_dim']
+            });
 
-        onPlayerDestroy: e => {
-            //const loc = e.block.location;
-            //e.dimension.runCommand(`fill ${loc.x} ${loc.y - 2} ${loc.z} ${loc.x} ${loc.y + 2} ${loc.z} air replace ${e.block.typeId}`);
+            mobs.forEach((mob) => {
+                world.sendMessage('mob dentro do portal');
+                const msg = {
+                    mobId: mob.id,
+                    portal: portalManager.getPortalByBlock(e.block.typeId)
+                };
+                system.sendScriptEvent('custom_dim:dim_teleporter', JSON.stringify(msg));
+            });
         }
     });
 
@@ -19,7 +34,6 @@ system.beforeEvents.startup.subscribe(initEvent => {
 
             if (itemInHand) {
                 const itemName = itemInHand.typeId;
-                const portalManager = new CustomPortalManager();
 
                 portalManager.portals.forEach(portal => {
                     if (itemName === portal.lightWithItem) {

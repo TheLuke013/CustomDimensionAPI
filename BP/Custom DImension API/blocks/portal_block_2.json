@@ -13,6 +13,11 @@
         "origin": [-8, 0, -8],
         "size": [16, 12, 16]
       },
+      "minecraft:tick": {
+        "interval_range": [20, 20],
+        "looping": true
+      },
+      "minecraft:custom_components": ["custom_dim:portal_block"],
       "minecraft:collision_box": false,
       "minecraft:destructible_by_mining": false,
       "minecraft:destructible_by_explosion": {

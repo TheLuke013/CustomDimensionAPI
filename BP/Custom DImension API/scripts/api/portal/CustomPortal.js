@@ -9,6 +9,7 @@ export class CustomPortal {
         this.hasLightning = hasLightning;
         this.soundAttachItem = 'block.end_portal_frame.fill';
         this.portalActivationSound = 'block.end_portal.spawn';
+        this.travelSound = 'portal.travel';
     }
 }
 
@@ -30,6 +31,10 @@ export class CustomPortalManager {
 
     getPortal(namespace) {
         return this.portals.find(portal => portal.namespace === namespace);
+    }
+
+    getPortalByBlock(portalBlock) {
+        return this.portals.find(portal => portal.portalBlock === portalBlock);
     }
 }
 
