@@ -1,8 +1,8 @@
-import { world } from '@minecraft/server';
+import { system } from '@minecraft/server';
 import { CustomPortalManager } from './CustomPortal.js';
 
-world.beforeEvents.worldInitialize.subscribe(initEvent => {
-    initEvent.blockComponentRegistry.registerCustomComponent('013:portal', {
+system.beforeEvents.startup.subscribe(initEvent => {
+    initEvent.blockComponentRegistry.registerCustomComponent('custom_dim:portal_block', {
         onRandomTick: e => {
             e.dimension.playSound('portal.portal', e.block.location);
         },
@@ -13,7 +13,7 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
         }
     });
 
-    initEvent.blockComponentRegistry.registerCustomComponent('013:portal_frame', {
+    initEvent.blockComponentRegistry.registerCustomComponent('custom_dim:portal_frame', {
         onPlayerInteract: e => {
             const itemInHand = e.player.getComponent('minecraft:inventory').container.getItem(e.player.selectedSlotIndex);
 

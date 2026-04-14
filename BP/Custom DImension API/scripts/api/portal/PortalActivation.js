@@ -2,7 +2,7 @@ import { world } from '@minecraft/server';
 import { detectBlocks, fillPortalBlocks, fillPortalBlocksWithDir, fillPortalBlocksSmart } from '../utils/Utils.js';
 import { CustomPortalManager, PortalType } from './CustomPortal.js';
 
-world.afterEvents.itemUseOn.subscribe((event) => {
+world.afterEvents.itemStartUseOn.subscribe((event) => {
     const item = event.itemStack;
     const blockLocation = event.block.location;
     const dimension = world.getDimension('overworld');

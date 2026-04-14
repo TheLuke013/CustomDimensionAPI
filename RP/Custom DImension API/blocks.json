@@ -1,19 +1,15 @@
 {
-	"format_version": [
-		1,
-		1,
-		0
-	],
-	"013:portal_block_1": {
-		"sound": "glass"
-	},
-	"013:portal_block_2": {
-		"sound": "glass"
-	},
-	"013:custom_endframe": {
-		"sound": "glass"
-	},
-	"013:custom_endframe_activated": {
-		"sound": "glass"
-	}
+  "format_version": [1, 1, 0],
+  "custom_dim:portal_block_1": {
+    "sound": "glass"
+  },
+  "custom_dim:portal_block_2": {
+    "sound": "glass"
+  },
+  "custom_dim:custom_endframe": {
+    "sound": "glass"
+  },
+  "custom_dim:custom_endframe_activated": {
+    "sound": "glass"
+  }
 }

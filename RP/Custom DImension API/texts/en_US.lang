@@ -1,6 +1,6 @@
 pack.name=Custom Dimension API
 pack.description=An API to create custom dimensions
 
-tile.013:portal_block_1.name=Portal Block 1
-tile.013:portal_block_2.name=Portal Block 2
-tile.013:custom_endframe.name=Custom Portal Frame
+tile.custom_dim:portal_block_1.name=Portal Block 1
+tile.custom_dim:portal_block_2.name=Portal Block 2
+tile.custom_dim:custom_endframe.name=Custom Portal Frame

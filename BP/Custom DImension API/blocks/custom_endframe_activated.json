@@ -1,48 +1,36 @@
 {
-	"format_version": "1.21.10",
-	"minecraft:block": {
-		"description": {
-			"identifier": "013:custom_endframe_activated"
-		},
-		"components": {
-			"minecraft:collision_box": {
-				"origin": [
-					-8,
-					0,
-					-8
-				],
-				"size": [
-					16,
-					13,
-					16
-				]
-			},
-			"minecraft:selection_box": {
-				"origin": [
-					-8,
-					0,
-					-8
-				],
-				"size": [
-					16,
-					13,
-					16
-				]
-			},
-			"minecraft:destructible_by_mining": false,
-			"minecraft:destructible_by_explosion": {
-				"explosion_resistance": 0
-			},
-			"minecraft:loot": "loot_tables/empty.json",
-			"minecraft:map_color": "#2ACDD9",
-			"minecraft:flammable": false,
-			"minecraft:geometry": "geometry.custom_endframe_eye",
-			"minecraft:material_instances": {
-				"*": {
-					"render_method": "blend",
-					"texture": "custom_endframe"
-				}
-			}
-		}
-	}
+  "format_version": "1.21.10",
+  "minecraft:block": {
+    "description": {
+      "identifier": "custom_dim:custom_endframe_activated",
+      "menu_category": {
+        "category": "none",
+        "is_hidden_in_commands": false
+      }
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "origin": [-8, 0, -8],
+        "size": [16, 13, 16]
+      },
+      "minecraft:selection_box": {
+        "origin": [-8, 0, -8],
+        "size": [16, 13, 16]
+      },
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0
+      },
+      "minecraft:loot": "loot_tables/empty.json",
+      "minecraft:map_color": "#2ACDD9",
+      "minecraft:flammable": false,
+      "minecraft:geometry": "geometry.custom_endframe_eye",
+      "minecraft:material_instances": {
+        "*": {
+          "render_method": "blend",
+          "texture": "custom_endframe"
+        }
+      }
+    }
+  }
 }

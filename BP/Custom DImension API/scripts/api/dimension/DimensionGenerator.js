@@ -5,12 +5,6 @@ import { CustomPortalManager, PortalType } from '../portal/CustomPortal.js';
 
 const dimManager = new CustomDimensionManager();
 
-world.beforeEvents.worldInitialize.subscribe(initEvent => {
-    dimManager.dimensions.forEach(dim => {
-        dim.generateChunksData();
-    });
-});
-
 system.runInterval(() => {
     const player = world.getPlayers();
     const dimension = world.getDimension('overworld');

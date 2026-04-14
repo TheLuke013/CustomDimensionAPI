@@ -2,7 +2,7 @@
     "format_version": "1.21.10",
     "minecraft:item": {
         "description": {
-            "identifier": "013:custom_ender_eye",
+            "identifier": "custom_dim:custom_ender_eye",
             "menu_category": {
                 "category": "items"
             }
