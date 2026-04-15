@@ -54,7 +54,7 @@
         "explosion_resistance": 0
       },
       "minecraft:tick": {
-        "interval_range": [20, 20],
+        "interval_range": [100, 200],
         "looping": true
       },
       "minecraft:custom_components": ["custom_dim:portal_block"],

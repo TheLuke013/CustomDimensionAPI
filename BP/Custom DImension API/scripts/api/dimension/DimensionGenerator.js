@@ -5,41 +5,13 @@ import { CustomPortalManager, PortalType } from '../portal/CustomPortal.js';
 
 const dimManager = new CustomDimensionManager();
 
-system.runInterval(() => {
-    const player = world.getPlayers();
-    const dimension = world.getDimension('overworld');
-
-    player.forEach(player => {
-        dimManager.dimensions.forEach(dim => {
-            if (player.getTags().includes(`generate_dimension_${dim.namespace}`)) {
-                player.addTag(`generate_${dim.namespace}`);
-                player.removeTag(`generate_dimension_${dim.namespace}`);
-            }
-
-            if (player.getTags().includes(`generate_${dim.namespace}`) && dim.generatedChunks < dim.maxChunks) {
-                generateDimChunk(dimension, dim);
-            }
-
-            if (player.getTags().includes(`generate_${dim.namespace}`) && dim.generatedChunks == 1) {
-                generatePortal(dim.namespace, dim.location, dimension);
-                player.playSound('portal.travel');
-            }
-
-            if (dim.generatedChunks >= dim.maxChunks) {
-                player.removeTag(`generate_${dim.namespace}`);
-                player.addTag(`${dim.namespace}_generated`);
-                dim.generatedChunks = 0;
-                dim.terrainGenerated = true;
-            }
-
-            if (dim.terrainGenerated) {
-                player.addTag(`${dim.namespace}_generated`);
-            } else if (player.getTags().includes(`${dim.namespace}_generated`)) {
-                dim.terrainGenerated = true;
-            }
-        });
-    });
-});
+world.afterEvents.playerDimensionChange.subscribe(e => {
+    const to = e.toDimension;
+    if (dimManager.getDimension(to.id)) {
+        const dimClass = dimManager.getDimension(to.id);
+        generatePortal(dimClass.namespace, e.toLocation, to);
+    }
+})
 
 function generatePortal(dimNamespace, location, dimension) {
     const portalManager = new CustomPortalManager();

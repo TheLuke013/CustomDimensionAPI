@@ -1,13 +1,35 @@
-import { system, world } from "@minecraft/server";
-import { detectBlocks } from "../utils/Utils.js";
+import { system, world, GameMode } from "@minecraft/server";
 import { CustomPortalManager, PortalType } from "./CustomPortal.js";
 import { CustomDimensionManager } from "../dimension/CustomDimension.js";
-import { SimpleVector3 } from "../utils/SimpleVector3.js";
 
 const dimManager = new CustomDimensionManager();
+const portalManager = new CustomPortalManager();
 
 let currentTime = 0;
 const targetTime = 5;
+
+system.runInterval(() => {
+  const players = world.getPlayers();
+  try {
+    players.forEach((player) => {
+      const playerCenterBlock = player.dimension.getBlock(player.location);
+      if (
+        !player.getTags().includes("teleporting_dim") &&
+        portalManager.getPortalByBlock(playerCenterBlock.typeId)
+      ) {
+        const msg = {
+          mobId: player.id,
+          portal: portalManager.getPortalByBlock(playerCenterBlock.typeId),
+        };
+
+        system.sendScriptEvent(
+          "custom_dim:dim_teleporter",
+          JSON.stringify(msg),
+        );
+      }
+    });
+  } catch (e) {}
+}, 20);
 
 system.afterEvents.scriptEventReceive.subscribe((e) => {
   const source = e.sourceType;
@@ -19,7 +41,16 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
   const mob = world.getEntity(msgJson.mobId);
   const portal = msgJson.portal;
 
-  mob.addTag('teleporting_dim');
+  if (mob.getTags().includes("teleporting_dim")) return;
+
+  if (mob.getGameMode() === GameMode.Spectator) return;
+  const currentGamemode = mob.getGameMode();
+  mob.setGameMode(GameMode.Spectator);
+  system.runTimeout(() => {
+    mob.setGameMode(currentGamemode);
+  }, 40);
+
+  mob.addTag("teleporting_dim");
 
   //aplica fade se for player
   if (mob.typeId === "minecraft:player") {
@@ -31,7 +62,7 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
 
   //======== RETORNANDO DA DIMENSAO ==========//
   if (mob.dimension.id === portal.destDimID) {
-    world.sendMessage('retornando da dimensao');
+    world.sendMessage("retornando da dimensao");
     if (mob.getDynamicProperty("return_location")) {
       const returnLoc = JSON.parse(
         mob.getDynamicProperty("return_location").toString(),
@@ -68,11 +99,11 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
     }
 
     mob.setDynamicProperty(`in_${portal.dimName}`, false);
-  } 
-  
+  }
+
   //======== ENTRANDO NA DIMENSAO ==========//
   else {
-    world.sendMessage('entrando na diemnsao');
+    world.sendMessage("entrando na diemnsao");
     //save return loc
     mob.setDynamicProperty("return_location", JSON.stringify(mob.location));
 
@@ -122,7 +153,9 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
     }
   }
 
-   system.runTimeout(() => {mob.removeTag('teleporting_dim');}, 40);
+  system.runTimeout(() => {
+    mob.removeTag("teleporting_dim");
+  }, 40);
 });
 
 async function teleportToDimension(player, portal) {
