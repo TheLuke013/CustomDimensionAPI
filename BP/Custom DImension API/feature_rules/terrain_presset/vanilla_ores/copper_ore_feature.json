@@ -1,0 +1,39 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "custom_dim:copper_ore_feature",
+      "places_feature": "minecraft:copper_ore_feature"
+    },
+    "conditions": {
+      "placement_pass": "first_pass",
+      "minecraft:biome_filter": [
+        {
+          "any_of": [
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "custom_dim:dimension_1"
+            }
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "iterations": 16,
+      "coordinate_eval_order": "zyx",
+      "x": {
+        "distribution": "uniform",
+        "extent": [ 0, 15 ]
+      },
+      "y": {
+        "distribution": "triangle",
+        "extent": [ -16, 112 ]
+      },
+      "z": {
+        "distribution": "uniform",
+        "extent": [ 0, 15 ]
+      }
+    }
+  }
+}

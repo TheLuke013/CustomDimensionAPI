@@ -65,7 +65,7 @@
       "minecraft:geometry": "geometry.vertical_portal",
       "minecraft:material_instances": {
         "*": {
-          "render_method": "blend",
+          "render_method": "alpha_test_single_sided",
           "texture": "portal_block_1"
         }
       }

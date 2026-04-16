@@ -62,7 +62,6 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
 
   //======== RETORNANDO DA DIMENSAO ==========//
   if (mob.dimension.id === portal.destDimID) {
-    world.sendMessage("retornando da dimensao");
     if (mob.getDynamicProperty("return_location")) {
       const returnLoc = JSON.parse(
         mob.getDynamicProperty("return_location").toString(),
@@ -103,7 +102,6 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
 
   //======== ENTRANDO NA DIMENSAO ==========//
   else {
-    world.sendMessage("entrando na diemnsao");
     //save return loc
     mob.setDynamicProperty("return_location", JSON.stringify(mob.location));
 

@@ -13,9 +13,6 @@ const dimension1 = new CustomDimension(
   { x: 0, y: 64, z: 0 },
   25,
 );
-dimension1.onFirstGeneration = (dimension) => {
-  dimension.runCommand('fill -10 63 -10 10 63 10 stone');
-}
 
 //DIMENSION 2
 const dimension2 = new CustomDimension(
