@@ -13,13 +13,13 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
 
     generateDimChunk(to, dimClass);
 
-    //gera o portal
-    if (dimClass.canGeneratePortal) {
-      generatePortal(dimClass.namespace, toLoc, to);
-    }
-
     if (!world.getDynamicProperty(`${dimClass.namespace}_generated`)) {
       world.setDynamicProperty(`${dimClass.namespace}_generated`, true);
+
+      //gera o portal
+      if (dimClass.canGeneratePortal) {
+        generatePortal(dimClass.namespace, toLoc, to);
+      }
 
       //chama a funcao da primeia geração da dimensao
       if (typeof dimClass.onFirstGeneration === "function") {
@@ -35,7 +35,7 @@ world.afterEvents.itemUse.subscribe((e) => {
   const loc = e.source.location;
 
   if (item.typeId === "minecraft:bow") {
-    generateDimChunk(dim, dimManager.getDimension('custom_dim:dimension_1'));
+    generateDimChunk(dim, dimManager.getDimension('custom_dim:dimension_2'));
   }
 });
 
@@ -44,20 +44,38 @@ function generateDimChunk(dimension, dimClass) {
   const loc = dimClass.spawnLoc;
 
   //gera chunk base
-  dimension.placeFeatureRule("custom_dim:stone_column", loc);
-  dimension.placeFeatureRule("custom_dim:bedrock_features", loc);
-  dimension.placeFeatureRule("custom_dim:deepslate_features", loc);
+  //CHUNK ALTA
+  if (dimClass.VerticalChunkSize === 'high') {
+    dimension.placeFeatureRule("custom_dim:chunk_base_high", loc);
+    dimension.placeFeatureRule("custom_dim:bedrock_features", loc);
+    dimension.placeFeatureRule("custom_dim:deepslate_features", loc);
+  } 
+  
+  //CHUNK MEDIA
+  else if (dimClass.VerticalChunkSize === 'medium') {
+    dimension.placeFeatureRule("custom_dim:chunk_base_medium", loc);
+    dimension.placeFeatureRule("custom_dim:medium_bedrock_features", loc);
+  }
+
+  //CHUNK BAIXA
+  else if (dimClass.VerticalChunkSize === 'low') {
+    dimension.placeFeatureRule("custom_dim:chunk_base_low", loc);
+    dimension.placeFeatureRule("custom_dim:low_bedrock_features", loc);
+  }
+
   dimension.placeFeatureRule("custom_dim:dirt_features", loc);
   dimension.placeFeatureRule("custom_dim:grass_features", loc);
 
   //gera features basicas da chunk
-  dimension.placeFeatureRule("custom_dim:andesite_feature", loc);
-  dimension.placeFeatureRule("custom_dim:diorite_feature", loc);
-  dimension.placeFeatureRule("custom_dim:dirt_feature", loc);
-  dimension.placeFeatureRule("custom_dim:granite_feature", loc);
-  dimension.placeFeatureRule("custom_dim:granite_feature", loc);
-  dimension.placeFeatureRule("custom_dim:gravel_ore_feature", loc);
-  dimension.placeFeatureRule("custom_dim:extra_gravel_ore_feature", loc);
+  if (dimClass.canGenerateCommonFeatures) {
+    dimension.placeFeatureRule("custom_dim:andesite_feature", loc);
+    dimension.placeFeatureRule("custom_dim:diorite_feature", loc);
+    dimension.placeFeatureRule("custom_dim:dirt_feature", loc);
+    dimension.placeFeatureRule("custom_dim:granite_feature", loc);
+    dimension.placeFeatureRule("custom_dim:granite_feature", loc);
+    dimension.placeFeatureRule("custom_dim:gravel_ore_feature", loc);
+    dimension.placeFeatureRule("custom_dim:extra_gravel_ore_feature", loc);
+  }
 
   if (dimClass.canGenerateVanillaOres) {
     dimension.placeFeatureRule("custom_dim:redstone_ore_feature", loc);

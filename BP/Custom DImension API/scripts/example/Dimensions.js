@@ -2,6 +2,7 @@ import {
   CustomDimension,
   CustomDimensionManager,
   TerrainMaterials,
+  VerticalChunkSize
 } from "../api/dimension/CustomDimension";
 
 const dimManager = new CustomDimensionManager();
@@ -11,7 +12,7 @@ const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
   new TerrainMaterials(),
   { x: 0, y: 64, z: 0 },
-  25,
+  VerticalChunkSize.HIGH
 );
 
 //DIMENSION 2
@@ -24,7 +25,7 @@ const dimension2 = new CustomDimension(
     "minecraft:bedrock",
   ),
   { x: 0, y: 64, z: 0 },
-  25,
+  VerticalChunkSize.LOW
 );
 
 dimManager.registerDimension(dimension1);

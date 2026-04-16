@@ -25,7 +25,7 @@
                 "extent": [0, 15],
                 "distribution": "fixed_grid"
             },
-            "y": 40,
+            "y": 55,
             "z": {
                 "extent": [0, 15],
                 "distribution": "fixed_grid"

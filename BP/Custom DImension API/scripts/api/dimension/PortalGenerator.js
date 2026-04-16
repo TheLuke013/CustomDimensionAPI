@@ -1,9 +1,13 @@
 import { placeBlocks } from "../utils/Utils.js";
 import { CustomPortalManager, PortalType } from "../portal/CustomPortal.js";
+import { CustomDimensionManager } from "../dimension/CustomDimension.js"
+
+const dimManager = new CustomDimensionManager();
+const portalManager = new CustomPortalManager();
 
 export function generatePortal(dimNamespace, location, dimension) {
-  const portalManager = new CustomPortalManager();
-  const pLocY = detectSurfaceFloor(dimension, location);
+  const baseBlock = dimManager.getDimension(dimNamespace).terrainMaterials.topMaterial;
+  const pLocY = detectSurfaceFloor(dimension, location, baseBlock);
   const portalLoc = { x: location.x, y: pLocY, z: location.z };
 
   portalManager.portals.forEach((portal) => {
@@ -30,6 +34,7 @@ export function generatePortal(dimNamespace, location, dimension) {
 function detectSurfaceFloor(
   dim,
   entryLoc,
+  baseBlock,
   startOffsetY = -10,
   maxOffsetY = 10,
 ) {
@@ -51,7 +56,7 @@ function detectSurfaceFloor(
 
     if (
       groundBlock &&
-      groundBlock.typeId !== "minecraft:air" &&
+      groundBlock.typeId === baseBlock &&
       aboveBlock &&
       aboveBlock.typeId === "minecraft:air"
     ) {

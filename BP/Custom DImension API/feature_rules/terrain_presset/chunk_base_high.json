@@ -2,8 +2,8 @@
 	"format_version": "1.21.10",
 	"minecraft:feature_rules": {
 		"description": {
-			"identifier": "custom_dim:dirt_features",
-			"places_feature": "custom_dim:dirt_column"
+			"identifier": "custom_dim:chunk_base_high",
+			"places_feature": "custom_dim:stone_column"
 		},
 		"conditions": {
             "placement_pass": "first_pass",
@@ -25,7 +25,7 @@
                 "extent": [0, 15],
                 "distribution": "fixed_grid"
             },
-            "y": 55,
+            "y": 0,
             "z": {
                 "extent": [0, 15],
                 "distribution": "fixed_grid"

@@ -2,8 +2,8 @@
 	"format_version": "1.21.10",
 	"minecraft:feature_rules": {
 		"description": {
-			"identifier": "custom_dim:stone_column",
-			"places_feature": "custom_dim:stone_column"
+			"identifier": "custom_dim:chunk_base_medium",
+			"places_feature": "custom_dim:medium_stone_column"
 		},
 		"conditions": {
             "placement_pass": "first_pass",

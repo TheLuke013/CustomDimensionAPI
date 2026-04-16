@@ -13,16 +13,17 @@ export class CustomDimension {
     namespace,
     terrainMaterials,
     spawnLoc,
-    maxChunks
+    verticalChunkSize
   ) {
     this.namespace = namespace;
     this.terrainMaterials = terrainMaterials;
     this.spawnLoc = spawnLoc;
-    this.maxChunks = maxChunks;
+    this.maxChunks = 24;
+    this.VerticalChunkSize = verticalChunkSize;
     this.generatedChunks = 0;
     this.chunks = [];
-    this.generator = new ChunkGenerator(16, 16, this.seed, this.frequency);
     this.canGenerateTerrain = true;
+    this.canGenerateCommonFeatures = true;
     this.canGenerateVanillaOres = true;
     this.canGeneratePortal = true;
     this.dimensionFog = '';
@@ -43,6 +44,12 @@ export class TerrainMaterials {
     this.baseMaterial = baseMat;
   }
 }
+
+export const VerticalChunkSize = {
+    HIGH: 'high', //128 heigh
+    MEDIUM: 'medium', //64 heigh
+    LOW: 'low' //32 heigh
+};
 
 export class CustomDimensionManager {
   constructor() {

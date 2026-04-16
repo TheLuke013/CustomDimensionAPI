@@ -2,11 +2,11 @@
 	"format_version": "1.21.10",
 	"minecraft:feature_rules": {
 		"description": {
-			"identifier": "custom_dim:dirt_features",
-			"places_feature": "custom_dim:dirt_column"
+			"identifier": "custom_dim:medium_bedrock_features",
+			"places_feature": "custom_dim:medium_bedrock_features"
 		},
 		"conditions": {
-            "placement_pass": "first_pass",
+			"placement_pass": "first_pass",
 			"minecraft:biome_filter": [
                 {
                     "any_of": [
@@ -21,15 +21,15 @@
 		},
 		"distribution": {
 			"iterations": 256,
-            "x": {
-                "extent": [0, 15],
-                "distribution": "fixed_grid"
-            },
-            "y": 55,
-            "z": {
-                "extent": [0, 15],
-                "distribution": "fixed_grid"
-            }
+			"x": {
+				"extent": [ 0, 15 ],
+				"distribution": "fixed_grid"
+			},
+			"y": 0,
+			"z": {
+				"extent": [ 0, 15 ],
+				"distribution": "fixed_grid"
+			}
 		}
 	}
 }
