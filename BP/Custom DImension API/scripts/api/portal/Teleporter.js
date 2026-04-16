@@ -29,7 +29,7 @@ system.runInterval(() => {
       }
     });
   } catch (e) {}
-}, 20);
+}, 40);
 
 system.afterEvents.scriptEventReceive.subscribe((e) => {
   const source = e.sourceType;

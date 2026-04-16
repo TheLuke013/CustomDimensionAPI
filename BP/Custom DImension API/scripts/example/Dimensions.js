@@ -3,7 +3,6 @@ import {
   CustomDimensionManager,
   TerrainMaterials,
 } from "../api/dimension/CustomDimension";
-import { SimpleVector3 } from "../api/utils/SimpleVector3";
 
 const dimManager = new CustomDimensionManager();
 
@@ -11,9 +10,12 @@ const dimManager = new CustomDimensionManager();
 const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
   new TerrainMaterials(),
-  new SimpleVector3(0, 64, 0),
+  { x: 0, y: 64, z: 0 },
   25,
 );
+dimension1.onFirstGeneration = (dimension) => {
+  dimension.runCommand('fill -10 63 -10 10 63 10 stone');
+}
 
 //DIMENSION 2
 const dimension2 = new CustomDimension(
@@ -24,7 +26,7 @@ const dimension2 = new CustomDimension(
     "minecraft:end_stone",
     "minecraft:bedrock",
   ),
-  new SimpleVector3(0, 64, 0),
+  { x: 0, y: 64, z: 0 },
   25,
 );
 

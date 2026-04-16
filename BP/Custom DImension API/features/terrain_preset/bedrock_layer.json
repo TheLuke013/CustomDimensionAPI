@@ -1,0 +1,13 @@
+{
+    "format_version": "1.13.0",
+    "minecraft:scatter_feature": {
+        "description": {
+            "identifier": "custom_dim:bedrock_layer"
+        },
+        "iterations": 1,
+        "places_feature": "custom_dim:bedrock_feature",
+        "x": 0,
+        "z": 0,
+        "y": -64
+    }
+}

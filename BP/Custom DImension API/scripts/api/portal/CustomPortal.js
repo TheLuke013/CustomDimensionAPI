@@ -40,5 +40,6 @@ export class CustomPortalManager {
 
 export const PortalType = {
     NETHER: 'nether',
-    THE_END: 'the_end'
+    THE_END: 'the_end',
+    CUSTOM: 'custom'
 };

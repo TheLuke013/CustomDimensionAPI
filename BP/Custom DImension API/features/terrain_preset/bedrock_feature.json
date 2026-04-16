@@ -1,0 +1,14 @@
+{
+  "format_version": "1.20.20",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "custom_dim:bedrock_feature"
+    },
+    "places_block": "minecraft:bedrock",
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": false,
+    "may_replace": [
+      "minecraft:stone"
+    ]
+  }
+}

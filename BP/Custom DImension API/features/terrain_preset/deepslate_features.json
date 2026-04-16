@@ -1,0 +1,12 @@
+{
+	"format_version": "1.20.20",
+	"minecraft:aggregate_feature": {
+		"description": {
+			"identifier": "custom_dim:deepslate_features"
+		},
+		"features": [
+			"custom_dim:deepslate_column",
+            "custom_dim:deepslate_layer"
+		]
+	}
+}
