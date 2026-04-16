@@ -12,7 +12,7 @@ const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
   new TerrainMaterials(),
   { x: 0, y: 64, z: 0 },
-  VerticalChunkSize.HIGH
+  VerticalChunkSize.MEDIUM
 );
 
 //DIMENSION 2

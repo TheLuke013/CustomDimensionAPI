@@ -1,89 +1,67 @@
-import FastNoiseLite from './FastNoiseLite.js';
-import { FeaturesManager } from './FeaturesManager.js';
+import { ChunkBatcher } from './ChunkBatcher.js';
 
 export class ChunkGenerator {
-  constructor(dimensionSize, dimensionHeight, seed, frequency) {
-    this.dimensionSize = dimensionSize;
-    this.heightScale = dimensionHeight;
-    this.groundLevel = -64;
-    this.seed = seed;
-    this.frequency = frequency;
-
-    //dimension properties
-    this.xOffset = 0;
-    this.yOffset = 0;
-    this.zOffset = 0;
+  constructor(dimension, dimClass) {
+    this.dimension = dimension;
+    this.dimClass = dimClass;
+    this.chunkBatcher = new ChunkBatcher(dimClass.spawnLoc, dimClass.maxChunks);
   }
 
-  generateData(overworldDim, dimension, chunk) {
-    //get dimension properties
-    const mat = dimension.terrainMaterials;
-    this.xOffset = dimension.chunkPositions[dimension.generatedChunksData][0];
-    this.yOffset = dimension.chunkPositions[dimension.generatedChunksData][1];
-    this.zOffset = dimension.chunkPositions[dimension.generatedChunksData][2];
-    let topMaterial = mat.topMaterial;
-    let midMaterial = mat.midMaterial;
-    let foundationMaterial = mat.bottomMaterial;
-    let baseMaterial = mat.baseMaterial;
+  generateAllChunks() {
+    this.chunkBatcher.onChunkBehaviour = (chunkLoc) => {
+      this.generateChunk(chunkLoc);
+    };
 
-    //configure noise
-    const noise = new FastNoiseLite();
-    noise.SetSeed(this.seed);
-    noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-    noise.SetFrequency(this.frequency);
-
-    for (let x = 0; x <= this.dimensionSize; x++) {
-      for (let z = 0; z <= this.dimensionSize; z++) {
-
-        const heightMap = Math.floor(noise.GetNoise(x + this.xOffset, z + this.zOffset) * 0.5 * this.heightScale);
-
-        for (let y = this.groundLevel; y <= heightMap; y++) {
-          const blockLoc = { x: this.xOffset + x, y: this.yOffset + y, z: this.zOffset + z };
-
-          //generate terrain
-          if (dimension.canGenerateTerrain) {
-            this.generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim, chunk);
-          }
-
-          //generate ores
-          this.generateOres(dimension, x, y, z, overworldDim, blockLoc, dimension.namespace, chunk);
-        }
-      }
-    }
+    this.chunkBatcher.batchChunks();
   }
 
-  generateTerrain(y, heightMap, topMaterial, midMaterial, foundationMaterial, baseMaterial, blockLoc, overworldDim, chunk) {
-    if (y === this.groundLevel) {
-      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, baseMaterial);
-    }
-    else if (y < heightMap - 3) {
-      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, foundationMaterial);
-    }
-    else if (y >= heightMap - 3 && y < heightMap) {
-      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, midMaterial);
-    }
-    else if (y === heightMap) {
-      chunk.addBlock(blockLoc.x, blockLoc.y, blockLoc.z, topMaterial);
-    }
-  }
+  generateChunk(loc) {
+    if (!this.dimClass.canGenerateTerrain) return;
 
-  generateOres(dimension, x, y, z, overworldDim, blockLoc, dimNamespace, chunk) {
-    const featuresManager = new FeaturesManager();
-
-    //generate vanilla ores if true
-    if (dimension.canGenerateVanillaOres) {
-      featuresManager.vanillaOreFeatures.forEach(vanillaOre => {
-        vanillaOre.generate(this.seed, x, y, z, overworldDim, blockLoc, chunk);
-      });
+    //gera chunk base
+    //CHUNK ALTA
+    if (this.dimClass.VerticalChunkSize === 'high') {
+      this.dimension.placeFeatureRule("custom_dim:chunk_base_high", loc);
+      this.dimension.placeFeatureRule("custom_dim:bedrock_features", loc);
+      this.dimension.placeFeatureRule("custom_dim:deepslate_features", loc);
+    } 
+    
+    //CHUNK MEDIA
+    else if (this.dimClass.VerticalChunkSize === 'medium') {
+      this.dimension.placeFeatureRule("custom_dim:chunk_base_medium", loc);
+      this.dimension.placeFeatureRule("custom_dim:medium_bedrock_features", loc);
     }
 
-    //generate custom ores
-    if (dimension.canGenerateCustomOres) {
-      featuresManager.oreFeatures.forEach(ore => {
-        if (ore.dimension === dimNamespace) {
-          ore.generate(this.seed, x, y, z, overworldDim, blockLoc, chunk);
-        }
-      });
+    //CHUNK BAIXA
+    else if (this.dimClass.VerticalChunkSize === 'low') {
+      this.dimension.placeFeatureRule("custom_dim:chunk_base_low", loc);
+      this.dimension.placeFeatureRule("custom_dim:low_bedrock_features", loc);
     }
+
+    this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);
+    this.dimension.placeFeatureRule("custom_dim:grass_features", loc);
+
+    //gera features basicas da chunk
+    if (this.dimClass.canGenerateCommonFeatures) {
+      this.dimension.placeFeatureRule("custom_dim:andesite_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:diorite_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:dirt_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:granite_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:granite_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:gravel_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:extra_gravel_ore_feature", loc);
+    }
+
+    if (this.dimClass.canGenerateVanillaOres) {
+      this.dimension.placeFeatureRule("custom_dim:redstone_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:lapis_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:iron_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:gold_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:diamond_ore_feature", loc);
+      this.dimension.placeFeatureRule("custom_dim:coal_ore_feature", loc);
+    }
+
+    this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
+    this.dimension.runCommand(`tickingarea remove temp`);
   }
 }
