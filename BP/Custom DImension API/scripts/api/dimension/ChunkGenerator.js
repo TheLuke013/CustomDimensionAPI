@@ -10,6 +10,9 @@ export class ChunkGenerator {
   generateAllChunks() {
     this.chunkBatcher.onChunkBehaviour = (chunkLoc) => {
       this.generateChunk(chunkLoc);
+      if (typeof this.dimClass.onChunkGeneration === "function") {
+        this.dimClass.onChunkGeneration(this.dimension, chunkLoc);
+      }
     };
 
     this.chunkBatcher.batchChunks();
@@ -52,6 +55,7 @@ export class ChunkGenerator {
       this.dimension.placeFeatureRule("custom_dim:extra_gravel_ore_feature", loc);
     }
 
+    //gera minerios vanilla
     if (this.dimClass.canGenerateVanillaOres) {
       this.dimension.placeFeatureRule("custom_dim:redstone_ore_feature", loc);
       this.dimension.placeFeatureRule("custom_dim:lapis_ore_feature", loc);
@@ -59,6 +63,39 @@ export class ChunkGenerator {
       this.dimension.placeFeatureRule("custom_dim:gold_ore_feature", loc);
       this.dimension.placeFeatureRule("custom_dim:diamond_ore_feature", loc);
       this.dimension.placeFeatureRule("custom_dim:coal_ore_feature", loc);
+    }
+
+    //muda os blocos da chunk se forem diferentes do default
+    if (this.dimClass.terrainMaterials.topMaterial !== 'grass_block') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.topMaterial} replace grass_block`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.midMaterial !== 'dirt') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.midMaterial} replace dirt`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.bottomMaterial !== 'stone') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.bottomMaterial} replace stone`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.baseMaterial !== 'bedrock') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y - 25} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.baseMaterial} replace bedrock`
+      );
     }
 
     this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);

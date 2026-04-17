@@ -26,17 +26,21 @@ export class CustomDimension {
     this.canGenerateCommonFeatures = true;
     this.canGenerateVanillaOres = true;
     this.canGeneratePortal = true;
+    this.canSpawnVanillaMobs = true;
     this.dimensionFog = '';
     this.onFirstGeneration = null;
+    this.onEnters = null;
+    this.onLeaves = null;
+    this.onChunkGeneration = null;
   }
 }
 
 export class TerrainMaterials {
   constructor(
-    topMat = "minecraft:grass_block",
-    midMat = "minecraft:dirt",
-    bottomMat = "minecraft:stone",
-    baseMat = "minecraft:bedrock",
+    topMat = "grass_block",
+    midMat = "dirt",
+    bottomMat = "stone",
+    baseMat = "bedrock",
   ) {
     this.topMaterial = topMat;
     this.midMaterial = midMat;
@@ -46,9 +50,21 @@ export class TerrainMaterials {
 }
 
 export const VerticalChunkSize = {
-    HIGH: 'high', //128 heigh
-    MEDIUM: 'medium', //64 heigh
-    LOW: 'low' //32 heigh
+    HIGH: 'high',       //128 heigh
+    MEDIUM: 'medium',   //64 heigh
+    LOW: 'low'          //32 heigh
+};
+
+export const GenerationType = {
+  FIXED: 'fixed',           //dimension size limited
+  DYNAMIC: 'dynamic'        //dimension infinite size
+};
+
+export const ReliefType = {
+  FLAT: 'flat',                 //totalmente plano
+  HILLS: 'hills',               //colinas suaves
+  MOUNTAINS: 'mountains',       //montanhas altas
+  PLAINS: 'plains',             //planícies levemente onduladas
 };
 
 export class CustomDimensionManager {

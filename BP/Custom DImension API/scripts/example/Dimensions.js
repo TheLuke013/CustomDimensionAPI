@@ -15,18 +15,25 @@ const dimension1 = new CustomDimension(
   VerticalChunkSize.MEDIUM
 );
 
+dimension1.canSpawnVanillaMobs = false;
+dimension1.maxChunks = 512;
+
 //DIMENSION 2
 const dimension2 = new CustomDimension(
   "custom_dim:dimension_2",
   new TerrainMaterials(
-    "minecraft:purpur_block",
-    "minecraft:end_stone",
-    "minecraft:end_stone",
-    "minecraft:bedrock",
+    "purpur_block",
+    "end_stone",
+    "end_stone",
+    "bedrock",
   ),
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW
 );
+
+dimension2.canSpawnVanillaMobs = false;
+dimension2.canGenerateVanillaOres = false;
+dimension2.canGenerateCommonFeatures = false;
 
 dimManager.registerDimension(dimension1);
 dimManager.registerDimension(dimension2);
