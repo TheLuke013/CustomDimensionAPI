@@ -1,5 +1,5 @@
 import { world, system } from "@minecraft/server";
-import { CustomDimensionManager } from "./CustomDimension.js";
+import { CustomDimensionManager, GenerationType } from "./CustomDimension.js";
 import { generatePortal } from "./PortalGenerator.js";
 import { ChunkGenerator } from "./ChunkGenerator.js"
 import { ChunkBatcher } from './ChunkBatcher.js';
@@ -16,10 +16,6 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
   if (dimManager.getDimension(to.id)) {
     const dimClass = dimManager.getDimension(to.id);
 
-    //gera as chunks fixas
-    const chunkGen = new ChunkGenerator(to, dimClass);
-    chunkGen.generateAllChunks();
-
     //chama função para quando entra na dimensao
     if (typeof dimClass.onEnters === "function") {
       dimClass.onEnters(to);
@@ -32,12 +28,19 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
         );
       }
 
+    //quando a dimensao gera pela primeira vez
     if (!world.getDynamicProperty(`${dimClass.namespace}_generated`)) {
       world.setDynamicProperty(`${dimClass.namespace}_generated`, true);
 
+      //gera as chunks fixas
+      if (dimClass.generationType === GenerationType.FIXED) {
+        const chunkGen = new ChunkGenerator(to, dimClass);
+        chunkGen.generateAllChunks();
+      }
+
       //gera o portal
       if (dimClass.canGeneratePortal) {
-        generatePortal(dimClass.namespace, toLoc, to);
+        system.runTimeout(() => { generatePortal(dimClass.namespace, toLoc, to); }, 40);
       }
 
       //chama a funcao da primeia geração da dimensao

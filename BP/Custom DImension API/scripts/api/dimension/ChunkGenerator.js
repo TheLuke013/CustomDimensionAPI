@@ -1,4 +1,5 @@
 import { ChunkBatcher } from './ChunkBatcher.js';
+import { VerticalChunkSize } from "./CustomDimension.js";
 
 export class ChunkGenerator {
   constructor(dimension, dimClass) {
@@ -23,20 +24,20 @@ export class ChunkGenerator {
 
     //gera chunk base
     //CHUNK ALTA
-    if (this.dimClass.VerticalChunkSize === 'high') {
+    if (this.dimClass.VerticalChunkSize === VerticalChunkSize.HIGH) {
       this.dimension.placeFeatureRule("custom_dim:chunk_base_high", loc);
       this.dimension.placeFeatureRule("custom_dim:bedrock_features", loc);
       this.dimension.placeFeatureRule("custom_dim:deepslate_features", loc);
     } 
     
     //CHUNK MEDIA
-    else if (this.dimClass.VerticalChunkSize === 'medium') {
+    else if (this.dimClass.VerticalChunkSize === VerticalChunkSize.MEDIUM) {
       this.dimension.placeFeatureRule("custom_dim:chunk_base_medium", loc);
       this.dimension.placeFeatureRule("custom_dim:medium_bedrock_features", loc);
     }
 
     //CHUNK BAIXA
-    else if (this.dimClass.VerticalChunkSize === 'low') {
+    else if (this.dimClass.VerticalChunkSize === VerticalChunkSize.LOW) {
       this.dimension.placeFeatureRule("custom_dim:chunk_base_low", loc);
       this.dimension.placeFeatureRule("custom_dim:low_bedrock_features", loc);
     }
@@ -63,6 +64,10 @@ export class ChunkGenerator {
       this.dimension.placeFeatureRule("custom_dim:gold_ore_feature", loc);
       this.dimension.placeFeatureRule("custom_dim:diamond_ore_feature", loc);
       this.dimension.placeFeatureRule("custom_dim:coal_ore_feature", loc);
+    }
+
+    if (this.dimClass.canGenerateLakes) {
+      this.dimension.placeFeatureRule("custom_dim:lake_feature", loc);
     }
 
     //muda os blocos da chunk se forem diferentes do default

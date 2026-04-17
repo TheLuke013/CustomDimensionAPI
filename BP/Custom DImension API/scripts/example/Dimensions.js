@@ -16,7 +16,7 @@ const dimension1 = new CustomDimension(
 );
 
 dimension1.canSpawnVanillaMobs = false;
-dimension1.maxChunks = 512;
+dimension1.maxChunks = 128;
 
 //DIMENSION 2
 const dimension2 = new CustomDimension(
