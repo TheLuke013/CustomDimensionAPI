@@ -2,7 +2,8 @@ import {
   CustomDimension,
   CustomDimensionManager,
   TerrainMaterials,
-  VerticalChunkSize
+  VerticalChunkSize,
+  ReliefType
 } from "../api/dimension/CustomDimension";
 
 const dimManager = new CustomDimensionManager();
@@ -12,7 +13,8 @@ const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
   new TerrainMaterials(),
   { x: 0, y: 64, z: 0 },
-  VerticalChunkSize.MEDIUM
+  VerticalChunkSize.LOW,
+  ReliefType.PLAINS
 );
 
 dimension1.canSpawnVanillaMobs = false;

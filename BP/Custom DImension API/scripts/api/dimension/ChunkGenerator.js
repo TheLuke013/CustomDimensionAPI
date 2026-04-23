@@ -1,5 +1,5 @@
 import { ChunkBatcher } from './ChunkBatcher.js';
-import { VerticalChunkSize } from "./CustomDimension.js";
+import { VerticalChunkSize, ReliefType } from "./CustomDimension.js";
 
 export class ChunkGenerator {
   constructor(dimension, dimClass) {
@@ -40,6 +40,18 @@ export class ChunkGenerator {
     else if (this.dimClass.VerticalChunkSize === VerticalChunkSize.LOW) {
       this.dimension.placeFeatureRule("custom_dim:chunk_base_low", loc);
       this.dimension.placeFeatureRule("custom_dim:low_bedrock_features", loc);
+    }
+
+    //===GERA O RELEVO===//
+
+    if (this.dimClass.reliefType === ReliefType.FLAT) {
+      this.dimension.placeFeatureRule("custom_dim:relief_flat", loc);
+    } else if (this.dimClass.reliefType === ReliefType.HILLS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_hills", loc);
+    } else if (this.dimClass.reliefType === ReliefType.MOUNTAINS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_mountains", loc);
+    } else if (this.dimClass.reliefType === ReliefType.PLAINS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_plains", loc);
     }
 
     this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);

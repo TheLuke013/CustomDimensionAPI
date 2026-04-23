@@ -2,14 +2,14 @@
     "format_version": "1.13.0",
     "minecraft:scatter_feature": {
         "description": {
-            "identifier": "custom_dim:medium_stone_column"
+            "identifier": "custom_dim:relief_plains"
         },
-        "iterations": 64,
+        "iterations": "t.height = 20 + (q.noise(v.originz/128, v.originx/128)) * 16; return t.height;",
         "places_feature": "custom_dim:stone_feature",
         "x": 0,
         "z": 0,
         "y": {
-            "extent": [0, 49],
+            "extent": [0, "t.height"],
             "distribution": "fixed_grid"
         }
     }

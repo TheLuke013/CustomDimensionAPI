@@ -13,7 +13,8 @@ export class CustomDimension {
     namespace,
     terrainMaterials,
     spawnLoc,
-    verticalChunkSize
+    verticalChunkSize,
+    reliefType = ReliefType.HILLS
   ) {
     this.namespace = namespace;
     this.terrainMaterials = terrainMaterials;
@@ -21,13 +22,13 @@ export class CustomDimension {
     this.maxChunks = 24; //isso só se aplica  generationType FIXED
     this.VerticalChunkSize = verticalChunkSize;
     this.generationType = GenerationType.FIXED;
-    this.reliefType = ReliefType.HILLS;
+    this.reliefType = reliefType;
     this.canGenerateTerrain = true;
     this.canGenerateCommonFeatures = true;
     this.canGenerateVanillaOres = true;
     this.canGeneratePortal = true;
-    this.canSpawnVanillaMobs = true;
     this.canGenerateLakes = true;
+    this.canSpawnVanillaMobs = true;
     this.dimensionFog = '';
     this.onFirstGeneration = null;
     this.onEnters = null;

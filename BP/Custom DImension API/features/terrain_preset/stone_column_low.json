@@ -4,12 +4,12 @@
         "description": {
             "identifier": "custom_dim:low_stone_column"
         },
-        "iterations": "t.height=64+(q.noise(v.originz/64,v.originx/64))*16; return t.height;",
+        "iterations": 64,
         "places_feature": "custom_dim:stone_feature",
         "x": 0,
         "z": 0,
         "y": {
-            "extent": [32, "t.height"],
+            "extent": [32, 49],
             "distribution": "fixed_grid"
         }
     }

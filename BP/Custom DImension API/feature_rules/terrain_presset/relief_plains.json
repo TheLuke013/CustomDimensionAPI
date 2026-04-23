@@ -2,8 +2,8 @@
 	"format_version": "1.21.10",
 	"minecraft:feature_rules": {
 		"description": {
-			"identifier": "custom_dim:lake_feature",
-			"places_feature": "custom_dim:water_layer"
+			"identifier": "custom_dim:relief_plains",
+			"places_feature": "custom_dim:relief_plains"
 		},
 		"conditions": {
             "placement_pass": "first_pass",
@@ -25,7 +25,7 @@
                 "extent": [0, 15],
                 "distribution": "fixed_grid"
             },
-            "y": 47,
+            "y": 50,
             "z": {
                 "extent": [0, 15],
                 "distribution": "fixed_grid"
