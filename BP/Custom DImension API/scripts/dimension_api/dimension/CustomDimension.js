@@ -14,15 +14,18 @@ export class CustomDimension {
     terrainMaterials,
     spawnLoc,
     verticalChunkSize,
-    reliefType = ReliefType.HILLS
+    reliefType = ReliefType.HILLS,
+    worldType = WorldType.OVERWORLD,
+    generationType = GenerationType.FIXED
   ) {
     this.namespace = namespace;
     this.terrainMaterials = terrainMaterials;
     this.spawnLoc = spawnLoc;
     this.maxChunks = 128; //isso só se aplica  generationType FIXED
     this.VerticalChunkSize = verticalChunkSize;
-    this.generationType = GenerationType.FIXED;
+    this.generationType = generationType;
     this.reliefType = reliefType;
+    this.worldType = worldType;
     this.canGenerateTerrain = true;
     this.canGenerateCommonFeatures = true;
     this.canGenerateVanillaOres = true;
@@ -72,7 +75,7 @@ export const ReliefType = {
   HILLS_WITH_RIVERS: 'hills_with_rivers'  //colinas suaves com rios sinuosos
 };
 
-export const DimensionType = {
+export const WorldType = {
   OVERWORLD: 'overworld',
   NETHER: 'nether',
   END: 'end',
