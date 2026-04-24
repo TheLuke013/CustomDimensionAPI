@@ -63,10 +63,20 @@ export const GenerationType = {
 };
 
 export const ReliefType = {
-  FLAT: 'flat',                 //totalmente plano
-  HILLS: 'hills',               //colinas suaves
-  MOUNTAINS: 'mountains',       //montanhas altas
-  PLAINS: 'plains',             //planícies levemente onduladas
+  FLAT: 'flat',                           //totalmente plano
+  HILLS: 'hills',                         //colinas suaves
+  MOUNTAINS: 'mountains',                 //montanhas altas
+  PLAINS: 'plains',                       //planícies levemente onduladas
+  ISLAND_CHAIN: 'island_chain',           //cadeia de ilhas
+  OCEAN: 'ocean',                         //oceano profundo
+  HILLS_WITH_RIVERS: 'hills_with_rivers'  //colinas suaves com rios sinuosos
+};
+
+export const DimensionType = {
+  OVERWORLD: 'overworld',
+  NETHER: 'nether',
+  END: 'end',
+  CUSTOM: 'custom'
 };
 
 export class CustomDimensionManager {

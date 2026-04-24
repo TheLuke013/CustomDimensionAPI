@@ -4,7 +4,7 @@ import {
   TerrainMaterials,
   VerticalChunkSize,
   ReliefType
-} from "../api/dimension/CustomDimension";
+} from "../dimension_api/dimension/CustomDimension";
 
 const dimManager = new CustomDimensionManager();
 
