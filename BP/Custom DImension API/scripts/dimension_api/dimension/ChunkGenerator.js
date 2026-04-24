@@ -52,6 +52,10 @@ export class ChunkGenerator {
       this.dimension.placeFeatureRule("custom_dim:relief_mountains", loc);
     } else if (this.dimClass.reliefType === ReliefType.PLAINS) {
       this.dimension.placeFeatureRule("custom_dim:relief_plains", loc);
+    } else if (this.dimClass.reliefType === ReliefType.HILLS_WITH_RIVERS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_hills_with_rivers", loc);
+    } else if (this.dimClass.reliefType === ReliefType.ISLAND_CHAIN) {
+      this.dimension.placeFeatureRule("custom_dim:relief_island_chain", loc);
     }
 
     this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);

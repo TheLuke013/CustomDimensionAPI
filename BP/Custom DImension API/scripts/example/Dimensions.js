@@ -14,7 +14,7 @@ const dimension1 = new CustomDimension(
   new TerrainMaterials(),
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
-  ReliefType.PLAINS
+  ReliefType.ISLAND_CHAIN
 );
 
 dimension1.canSpawnVanillaMobs = false;

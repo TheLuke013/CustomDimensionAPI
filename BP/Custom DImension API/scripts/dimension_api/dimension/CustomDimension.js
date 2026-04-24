@@ -19,7 +19,7 @@ export class CustomDimension {
     this.namespace = namespace;
     this.terrainMaterials = terrainMaterials;
     this.spawnLoc = spawnLoc;
-    this.maxChunks = 24; //isso só se aplica  generationType FIXED
+    this.maxChunks = 128; //isso só se aplica  generationType FIXED
     this.VerticalChunkSize = verticalChunkSize;
     this.generationType = GenerationType.FIXED;
     this.reliefType = reliefType;

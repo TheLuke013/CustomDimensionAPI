@@ -1,0 +1,35 @@
+{
+	"format_version": "1.21.10",
+	"minecraft:feature_rules": {
+		"description": {
+			"identifier": "custom_dim:relief_island_chain",
+			"places_feature": "custom_dim:relief_island_chain"
+		},
+		"conditions": {
+            "placement_pass": "first_pass",
+			"minecraft:biome_filter": [
+                {
+                    "any_of": [
+                        {
+                            "test": "has_biome_tag",
+                            "operator": "==",
+                            "value": "custom_dim:dimension_1"
+                        }
+                    ]
+                }
+            ]
+		},
+		"distribution": {
+			"iterations": 256,
+            "x": {
+                "extent": [0, 15],
+                "distribution": "fixed_grid"
+            },
+            "y": 50,
+            "z": {
+                "extent": [0, 15],
+                "distribution": "fixed_grid"
+            }
+		}
+	}
+}

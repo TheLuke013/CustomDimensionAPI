@@ -1,4 +1,4 @@
-import { FeaturesManager } from "../api/dimension/FeaturesManager";
+import { FeaturesManager } from "../dimension_api/dimension/FeaturesManager";
 
 const featuresManager = new FeaturesManager();
 

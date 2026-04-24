@@ -2,7 +2,7 @@ import {
   CustomPortal,
   CustomPortalManager,
   PortalType,
-} from "../api/portal/CustomPortal.js";
+} from "../dimension_api/portal/CustomPortal.js";
 
 const portalManager = new CustomPortalManager();
 
