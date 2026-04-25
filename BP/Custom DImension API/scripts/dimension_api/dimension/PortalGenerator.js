@@ -7,7 +7,7 @@ const portalManager = new CustomPortalManager();
 
 export function generatePortal(dimNamespace, location, dimension) {
   const baseBlock = dimManager.getDimension(dimNamespace).terrainMaterials.topMaterial;
-  const pLocY = detectSurfaceFloor(dimension, location, baseBlock);
+  const pLocY = detectSurfaceFloor(dimension, location, baseBlock, -10, 100);
   const portalLoc = { x: location.x, y: pLocY, z: location.z };
 
   portalManager.portals.forEach((portal) => {

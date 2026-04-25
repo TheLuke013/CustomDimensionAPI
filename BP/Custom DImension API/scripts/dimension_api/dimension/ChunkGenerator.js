@@ -99,17 +99,17 @@ export class ChunkGenerator {
     //===GERA O RELEVO===//
 
     if (this.dimClass.reliefType === ReliefType.FLAT) {
-      this.dimension.placeFeatureRule("custom_dim:relief_flat", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_flat", loc);
     } else if (this.dimClass.reliefType === ReliefType.HILLS) {
-      this.dimension.placeFeatureRule("custom_dim:relief_hills", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_hills", loc);
     } else if (this.dimClass.reliefType === ReliefType.MOUNTAINS) {
-      this.dimension.placeFeatureRule("custom_dim:relief_mountains", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_mountains", loc);
     } else if (this.dimClass.reliefType === ReliefType.PLAINS) {
       this.dimension.placeFeatureRule("custom_dim:nether_relief_plains", loc);
     } else if (this.dimClass.reliefType === ReliefType.HILLS_WITH_RIVERS) {
-      this.dimension.placeFeatureRule("custom_dim:relief_hills_with_rivers", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_hills_with_rivers", loc);
     } else if (this.dimClass.reliefType === ReliefType.ISLAND_CHAIN) {
-      this.dimension.placeFeatureRule("custom_dim:relief_island_chain", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_island_chain", loc);
     } 
   }
 

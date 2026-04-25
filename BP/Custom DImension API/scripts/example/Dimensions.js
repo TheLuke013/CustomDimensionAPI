@@ -12,16 +12,18 @@ const dimManager = new CustomDimensionManager();
 //DIMENSION 1
 const dimension1 = new CustomDimension(
   "custom_dim:dimension_1",
-  new TerrainMaterials(),
+  new TerrainMaterials(
+    
+  ),
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
-  ReliefType.PLAINS,
+  ReliefType.MOUNTAINS,
   WorldType.NETHER
 );
 
 dimension1.canSpawnVanillaMobs = false;
 dimension1.maxChunks = 128;
-dimension1.dimensionFog = "minecraft:fog_crimson_forest";
+//dimension1.dimensionFog = "minecraft:fog_crimson_forest";
 dimension1.onEnters = (dim, player) => {
   player.addEffect("minecraft:night_vision", 999999, { showParticles: false});
 }

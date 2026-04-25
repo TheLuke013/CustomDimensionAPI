@@ -1,0 +1,16 @@
+{
+    "format_version": "1.13.0",
+    "minecraft:scatter_feature": {
+        "description": {
+            "identifier": "custom_dim:nether_relief_mountains"
+        },
+        "iterations": "t.height = 35 + math.pow(math.abs(q.noise(v.originz/110, v.originx/110)), 1.3) * 60; return t.height;",
+        "places_feature": "custom_dim:stone_feature",
+        "x": 0,
+        "z": 0,
+        "y": {
+            "extent": ["-t.height", 0],
+            "distribution": "fixed_grid"
+        }
+    }
+}

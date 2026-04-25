@@ -1,0 +1,16 @@
+{
+    "format_version": "1.13.0",
+    "minecraft:scatter_feature": {
+        "description": {
+            "identifier": "custom_dim:nether_relief_hills_with_rivers"
+        },
+        "iterations": "t.height=15+(q.noise(v.originz/64,v.originx/64))*20; return t.height;",
+        "places_feature": "custom_dim:stone_feature",
+        "x": 0,
+        "z": 0,
+        "y": {
+            "extent": ["-t.height", 0],
+            "distribution": "fixed_grid"
+        }
+    }
+}

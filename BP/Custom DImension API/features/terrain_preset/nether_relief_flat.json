@@ -1,0 +1,16 @@
+{
+    "format_version": "1.13.0",
+    "minecraft:scatter_feature": {
+        "description": {
+            "identifier": "custom_dim:nether_relief_flat"
+        },
+        "iterations": 64,
+        "places_feature": "custom_dim:stone_feature",
+        "x": 0,
+        "z": 0,
+        "y": {
+            "extent": [0, 15],
+            "distribution": "fixed_grid"
+        }
+    }
+}
