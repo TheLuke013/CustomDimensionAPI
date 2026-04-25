@@ -5,6 +5,7 @@ export class ChunkBatcher {
     this.location = location;
     this.maxChunks = maxChunks;
     this.onChunkBehaviour = null;
+    this.chunkSize = 16;
   }
 
   batchChunks() {
@@ -28,7 +29,6 @@ export class ChunkBatcher {
 
   _generateChunkPositions() {
     const chunkPositions = [];
-    const chunkSize = 16;
 
     let generatedPos = 0;
 
@@ -36,9 +36,9 @@ export class ChunkBatcher {
       for (let dx = -radius; dx <= radius; dx++) {
         for (let dz = -radius; dz <= radius; dz++) {
           if (Math.abs(dx) === radius || Math.abs(dz) === radius) {
-            const x = this.location.x + dx * chunkSize;
+            const x = this.location.x + dx * this.chunkSize;
             const y = this.location.y;
-            const z = this.location.z + dz * chunkSize;
+            const z = this.location.z + dz * this.chunkSize;
 
             chunkPositions[generatedPos] = [x, y, z];
             generatedPos++;

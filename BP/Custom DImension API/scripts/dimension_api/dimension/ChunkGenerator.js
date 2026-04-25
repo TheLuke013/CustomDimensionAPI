@@ -1,5 +1,5 @@
 import { ChunkBatcher } from './ChunkBatcher.js';
-import { VerticalChunkSize, ReliefType } from "./CustomDimension.js";
+import { VerticalChunkSize, ReliefType, WorldType } from "./CustomDimension.js";
 
 export class ChunkGenerator {
   constructor(dimension, dimClass) {
@@ -22,6 +22,98 @@ export class ChunkGenerator {
   generateChunk(loc) {
     if (!this.dimClass.canGenerateTerrain) return;
 
+    if (this.dimClass.worldType === WorldType.OVERWORLD) {
+      this._generateBaseChunk(loc);
+      this._setChunkMaterials(loc);
+    } else if (this.dimClass.worldType === WorldType.NETHER) {
+      this._generateBaseChunk(loc);
+      this._generateOverChunk(loc);
+      this._setChunkMaterials(loc);
+    } else if (this.dimClass.worldType === WorldType.END) {
+      this.dimension.placeFeatureRule("custom_dim:islands_feature", loc);
+      this._setChunkMaterials(loc);
+    }
+
+    this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
+    this.dimension.runCommand(`tickingarea remove temp`);
+  }
+
+  _setChunkMaterials(loc) {
+    this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);
+    this.dimension.placeFeatureRule("custom_dim:grass_features", loc);
+
+    //muda os blocos da chunk se forem diferentes do default
+    if (this.dimClass.terrainMaterials.topMaterial !== 'grass_block') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.topMaterial} replace grass_block`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.midMaterial !== 'dirt') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.midMaterial} replace dirt`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.bottomMaterial !== 'stone') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.bottomMaterial} replace stone`
+      );
+    }
+
+    if (this.dimClass.terrainMaterials.baseMaterial !== 'bedrock') {
+      this.dimension.runCommand(
+          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
+          `${loc.x + 15} ${loc.y - 25} ${loc.z + 15} ` +
+          `${this.dimClass.terrainMaterials.baseMaterial} replace bedrock`
+      );
+    }
+  }
+
+  _generateOverChunk(loc) {
+    //gera chunk base
+    //CHUNK ALTA
+    if (this.dimClass.VerticalChunkSize === VerticalChunkSize.HIGH) {
+      this.dimension.placeFeatureRule("custom_dim:nether_chunk_base_high", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_bedrock_features", loc);
+    } 
+    
+    //CHUNK MEDIA
+    else if (this.dimClass.VerticalChunkSize === VerticalChunkSize.MEDIUM) {
+      this.dimension.placeFeatureRule("custom_dim:nether_chunk_base_medium", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_medium_bedrock_features", loc);
+    }
+
+    //CHUNK BAIXA
+    else if (this.dimClass.VerticalChunkSize === VerticalChunkSize.LOW) {
+      this.dimension.placeFeatureRule("custom_dim:nether_chunk_base_low", loc);
+      this.dimension.placeFeatureRule("custom_dim:nether_low_bedrock_features", loc);
+    }
+
+    //===GERA O RELEVO===//
+
+    if (this.dimClass.reliefType === ReliefType.FLAT) {
+      this.dimension.placeFeatureRule("custom_dim:relief_flat", loc);
+    } else if (this.dimClass.reliefType === ReliefType.HILLS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_hills", loc);
+    } else if (this.dimClass.reliefType === ReliefType.MOUNTAINS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_mountains", loc);
+    } else if (this.dimClass.reliefType === ReliefType.PLAINS) {
+      this.dimension.placeFeatureRule("custom_dim:nether_relief_plains", loc);
+    } else if (this.dimClass.reliefType === ReliefType.HILLS_WITH_RIVERS) {
+      this.dimension.placeFeatureRule("custom_dim:relief_hills_with_rivers", loc);
+    } else if (this.dimClass.reliefType === ReliefType.ISLAND_CHAIN) {
+      this.dimension.placeFeatureRule("custom_dim:relief_island_chain", loc);
+    } 
+  }
+
+  _generateBaseChunk(loc) {
     //gera chunk base
     //CHUNK ALTA
     if (this.dimClass.VerticalChunkSize === VerticalChunkSize.HIGH) {
@@ -56,10 +148,7 @@ export class ChunkGenerator {
       this.dimension.placeFeatureRule("custom_dim:relief_hills_with_rivers", loc);
     } else if (this.dimClass.reliefType === ReliefType.ISLAND_CHAIN) {
       this.dimension.placeFeatureRule("custom_dim:relief_island_chain", loc);
-    }
-
-    this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);
-    this.dimension.placeFeatureRule("custom_dim:grass_features", loc);
+    }  
 
     //gera features basicas da chunk
     if (this.dimClass.canGenerateCommonFeatures) {
@@ -85,41 +174,5 @@ export class ChunkGenerator {
     if (this.dimClass.canGenerateLakes) {
       this.dimension.placeFeatureRule("custom_dim:lake_feature", loc);
     }
-
-    //muda os blocos da chunk se forem diferentes do default
-    if (this.dimClass.terrainMaterials.topMaterial !== 'grass_block') {
-      this.dimension.runCommand(
-          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
-          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
-          `${this.dimClass.terrainMaterials.topMaterial} replace grass_block`
-      );
-    }
-
-    if (this.dimClass.terrainMaterials.midMaterial !== 'dirt') {
-      this.dimension.runCommand(
-          `fill ${loc.x} ${loc.y - 32} ${loc.z} ` +
-          `${loc.x + 15} ${loc.y + 32} ${loc.z + 15} ` +
-          `${this.dimClass.terrainMaterials.midMaterial} replace dirt`
-      );
-    }
-
-    if (this.dimClass.terrainMaterials.bottomMaterial !== 'stone') {
-      this.dimension.runCommand(
-          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
-          `${loc.x + 15} ${loc.y} ${loc.z + 15} ` +
-          `${this.dimClass.terrainMaterials.bottomMaterial} replace stone`
-      );
-    }
-
-    if (this.dimClass.terrainMaterials.baseMaterial !== 'bedrock') {
-      this.dimension.runCommand(
-          `fill ${loc.x} ${loc.y - 64} ${loc.z} ` +
-          `${loc.x + 15} ${loc.y - 25} ${loc.z + 15} ` +
-          `${this.dimClass.terrainMaterials.baseMaterial} replace bedrock`
-      );
-    }
-
-    this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
-    this.dimension.runCommand(`tickingarea remove temp`);
   }
 }

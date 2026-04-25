@@ -72,7 +72,8 @@ export const ReliefType = {
   PLAINS: 'plains',                       //planícies levemente onduladas
   ISLAND_CHAIN: 'island_chain',           //cadeia de ilhas
   OCEAN: 'ocean',                         //oceano profundo
-  HILLS_WITH_RIVERS: 'hills_with_rivers'  //colinas suaves com rios sinuosos
+  HILLS_WITH_RIVERS: 'hills_with_rivers',  //colinas suaves com rios sinuosos
+  NONE: 'none'                            //sem relevo, apenas os materiais da chunk base
 };
 
 export const WorldType = {

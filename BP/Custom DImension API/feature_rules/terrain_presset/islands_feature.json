@@ -1,0 +1,35 @@
+{
+	"format_version": "1.21.10",
+	"minecraft:feature_rules": {
+		"description": {
+			"identifier": "custom_dim:islands_feature",
+			"places_feature": "custom_dim:islands_feature"
+		},
+		"conditions": {
+            "placement_pass": "first_pass",
+			"minecraft:biome_filter": [
+                {
+                    "any_of": [
+                        {
+                            "test": "has_biome_tag",
+                            "operator": "==",
+                            "value": "custom_dim:dimension_1"
+                        }
+                    ]
+                }
+            ]
+		},
+		"distribution": {
+			"iterations": "t.tile_size_x = 256; t.tile_size_z = 256; t.tile_origin_x = t.tile_size_x * math.floor(v.originx / t.tile_size_x); t.tile_origin_z = t.tile_size_z * math.floor(v.originz / t.tile_size_z); t.tile_center_x = t.tile_origin_x + t.tile_size_x / 2; t.tile_center_z = t.tile_origin_z + t.tile_size_z / 2; t.tile_offset = 195 + 64 * query.noise( t.tile_center_x, t.tile_center_z ); return t.tile_offset;",
+            "x": {
+                "extent": [0, 15],
+                "distribution": "fixed_grid"
+            },
+            "y": 32,
+            "z": {
+                "extent": [0, 15],
+                "distribution": "fixed_grid"
+            }
+		}
+	}
+}

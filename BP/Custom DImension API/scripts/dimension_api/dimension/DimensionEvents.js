@@ -18,7 +18,7 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
 
     //chama função para quando entra na dimensao
     if (typeof dimClass.onEnters === "function") {
-      dimClass.onEnters(to);
+      dimClass.onEnters(to, player);
     }
 
     //aplica fog
@@ -40,12 +40,12 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
 
       //gera o portal
       if (dimClass.canGeneratePortal) {
-        system.runTimeout(() => { generatePortal(dimClass.namespace, toLoc, to); }, 40);
+        system.runTimeout(() => { generatePortal(dimClass.namespace, toLoc, to); }, 100);
       }
 
       //chama a funcao da primeia geração da dimensao
       if (typeof dimClass.onFirstGeneration === "function") {
-        dimClass.onFirstGeneration(to);
+        dimClass.onFirstGeneration(to, player);
       }
     }
   }
@@ -59,7 +59,7 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
 
     //chama função para quando sai da dimensao
     if (typeof dimClass.onLeaves === "function") {
-      dimClass.onLeaves(to);
+      dimClass.onLeaves(to, player);
     }
   }
 });

@@ -1,0 +1,19 @@
+{
+  "format_version": "1.20.20",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "custom_dim:islands_feature"
+    },
+    "places_feature": "custom_dim:islands_edge",
+    "iterations": "t.noise1 =query.noise(v.worldx / 64,v.worldz / 64);t.noise2 =query.noise((v.worldx - 8231) / 64,(v.worldz - 8231) / 64);t.origin_y = v.originy;t.column_distance_ratio =(math.abs(v.originx - t.tile_center_x) + math.abs(v.originz - t.tile_center_z)) / (t.tile_size_x * 2.5);return 48;",
+		"x": 0,
+		"z": 0,
+		"y": {
+			"distribution": "fixed_grid",
+			"extent": [
+				0,
+				47
+			]
+		}
+  }
+}

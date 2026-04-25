@@ -3,7 +3,8 @@ import {
   CustomDimensionManager,
   TerrainMaterials,
   VerticalChunkSize,
-  ReliefType
+  ReliefType,
+  WorldType
 } from "../dimension_api/dimension/CustomDimension";
 
 const dimManager = new CustomDimensionManager();
@@ -14,11 +15,16 @@ const dimension1 = new CustomDimension(
   new TerrainMaterials(),
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
-  ReliefType.ISLAND_CHAIN
+  ReliefType.PLAINS,
+  WorldType.NETHER
 );
 
 dimension1.canSpawnVanillaMobs = false;
 dimension1.maxChunks = 128;
+dimension1.dimensionFog = "minecraft:fog_crimson_forest";
+dimension1.onEnters = (dim, player) => {
+  player.addEffect("minecraft:night_vision", 999999, { showParticles: false});
+}
 
 //DIMENSION 2
 const dimension2 = new CustomDimension(
@@ -30,7 +36,9 @@ const dimension2 = new CustomDimension(
     "bedrock",
   ),
   { x: 0, y: 64, z: 0 },
-  VerticalChunkSize.LOW
+  VerticalChunkSize.LOW,
+  ReliefType.NONE,
+  WorldType.END
 );
 
 dimension2.canSpawnVanillaMobs = false;

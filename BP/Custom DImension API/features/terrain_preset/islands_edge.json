@@ -1,0 +1,13 @@
+{
+	"format_version": "1.20.20",
+	"minecraft:scatter_feature": {
+		"description": {
+			"identifier": "custom_dim:islands_edge"
+		},
+		"places_feature": "custom_dim:stone_feature",
+		"iterations": "t.y_ratio = (v.originy - t.origin_y) / 64;t.interpolation =t.noise1+ (t.noise2 - t.noise1)* math.hermite_blend(t.y_ratio);return t.interpolation / 3+ (1 - t.column_distance_ratio / 0.4)- (math.abs(v.originy - (t.origin_y + 24))) / 32> 0.35;",
+		"x": 0,
+		"z": 0,
+		"y": 0
+	}
+}
