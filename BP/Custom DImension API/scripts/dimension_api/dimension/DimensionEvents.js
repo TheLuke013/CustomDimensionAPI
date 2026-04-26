@@ -3,6 +3,7 @@ import { CustomDimensionManager, GenerationType } from "./CustomDimension.js";
 import { generatePortal } from "./PortalGenerator.js";
 import { ChunkGenerator } from "./ChunkGenerator.js"
 import { ChunkBatcher } from './ChunkBatcher.js';
+import { detectSurfaceFloor } from "../utils/Utils.js";
 
 const dimManager = new CustomDimensionManager();
 
@@ -15,6 +16,7 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
   //==== QUANDO ENTRA EM UMA DIMENSAO CUSTOM ====//
   if (dimManager.getDimension(to.id)) {
     const dimClass = dimManager.getDimension(to.id);
+    const chunkGen = new ChunkGenerator(to, dimClass);
 
     //chama função para quando entra na dimensao
     if (typeof dimClass.onEnters === "function") {
@@ -28,13 +30,24 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
         );
       }
 
+    const dimGenerated = world.getDynamicProperty(`${dimClass.namespace}_generated`);
+    
+    //gera a chunk onde o jogador spawnou
+    if (!dimGenerated) chunkGen.generateChunk(toLoc);
+
+    //teleporta jogador para altura de spawn da dimensao
+    const delay = dimGenerated ? 5 : 20;
+    system.runTimeout(() => {
+      const height = detectSurfaceFloor(to, toLoc, dimClass.terrainMaterials.topMaterial, -10, 100);
+      player.teleport({ x: toLoc.x, y: height, z: toLoc.z }, { dimension: to });
+    }, delay);
+
     //quando a dimensao gera pela primeira vez
-    if (!world.getDynamicProperty(`${dimClass.namespace}_generated`)) {
+    if (!dimGenerated) {
       world.setDynamicProperty(`${dimClass.namespace}_generated`, true);
 
       //gera as chunks fixas
-      if (dimClass.generationType === GenerationType.FIXED) {
-        const chunkGen = new ChunkGenerator(to, dimClass);
+      if (dimClass.generationType === GenerationType.FIXED) {    
         chunkGen.generateAllChunks();
       }
 

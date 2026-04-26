@@ -69,31 +69,32 @@ export function detectSurfaceFloor(
   startOffsetY = -10,
   maxOffsetY = 10,
 ) {
-  for (let y = startOffsetY; y <= maxOffsetY; y++) {
-    const groundLoc = {
-      x: entryLoc.x,
-      y: entryLoc.y + y,
-      z: entryLoc.z,
-    };
+    baseBlock = "minecraft:" + baseBlock;
+    for (let y = startOffsetY; y <= maxOffsetY; y++) {
+        const groundLoc = {
+        x: entryLoc.x,
+        y: entryLoc.y + y,
+        z: entryLoc.z,
+        };
 
-    const aboveLoc = {
-      x: entryLoc.x,
-      y: entryLoc.y + y + 1,
-      z: entryLoc.z,
-    };
+        const aboveLoc = {
+        x: entryLoc.x,
+        y: entryLoc.y + y + 1,
+        z: entryLoc.z,
+        };
 
-    const groundBlock = dim.getBlock(groundLoc);
-    const aboveBlock = dim.getBlock(aboveLoc);
+        const groundBlock = dim.getBlock(groundLoc);
+        const aboveBlock = dim.getBlock(aboveLoc);
 
-    if (
-      groundBlock &&
-      groundBlock.typeId === baseBlock &&
-      aboveBlock &&
-      aboveBlock.typeId === "minecraft:air"
-    ) {
-      return aboveBlock.location.y;
+        if (
+        groundBlock &&
+        groundBlock.typeId === baseBlock &&
+        aboveBlock &&
+        aboveBlock.typeId === "minecraft:air"
+        ) {
+        return aboveBlock.location.y;
+        }
     }
-  }
 
-  return entryLoc.y;
+    return entryLoc.y;
 }

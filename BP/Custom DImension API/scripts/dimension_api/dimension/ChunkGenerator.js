@@ -43,6 +43,8 @@ export class ChunkGenerator {
 
     this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
     this.dimension.runCommand(`tickingarea remove temp`);
+
+    this.chunkBatcher.chunksGenerated++;
   }
 
   _generateCustomFeatures(loc) {

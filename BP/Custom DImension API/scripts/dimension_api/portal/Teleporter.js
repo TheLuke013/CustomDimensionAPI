@@ -29,7 +29,7 @@ system.runInterval(() => {
       }
     });
   } catch (e) {}
-}, 40);
+}, 5);
 
 system.afterEvents.scriptEventReceive.subscribe((e) => {
   const source = e.sourceType;
@@ -106,13 +106,7 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
     mob.setDynamicProperty("return_location", JSON.stringify(mob.location));
 
     //teleport
-    if (mob.typeId !== "minecraft:player") {
-      const dimLoc = portal.dimensionLocation;
-      mob.runCommand(`tp ${dimLoc.x} ${dimLoc.y} ${dimLoc.z}`);
-    } else {
-      //mob.tryTeleport(portal.dimensionLocation);
-      teleportToDimension(mob, portal);
-    }
+    teleportToDimension(mob, portal);
 
     //apply fog
     if (portal.dimensionFog !== "") {
@@ -126,14 +120,6 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
 
       if (mob.typeId === "minecraft:player") {
         const dimLoc = dimManager.getDimension(portal.destDimID).spawnLoc;
-        const soundOffset = {
-          x: mob.location.x + 3,
-          y: mob.location.y,
-          z: mob.location.z + 1,
-        };
-
-        mob.playSound(portal.travelSound, { location: soundOffset });
-
         mob.setSpawnPoint({
           dimension: world.getDimension(portal.destDimID),
           x: dimLoc.x,
@@ -159,20 +145,9 @@ system.afterEvents.scriptEventReceive.subscribe((e) => {
 async function teleportToDimension(player, portal) {
   const dimClass = dimManager.getDimension(portal.destDimID);
   const dim = world.getDimension(dimClass.namespace);
-  const tickingAreaId = `${dimClass.namespace}_teleport`;
   const spawn = dimClass.spawnLoc;
 
-  if (!world.tickingAreaManager.hasTickingArea(tickingAreaId)) {
-    await world.tickingAreaManager.createTickingArea(tickingAreaId, {
-      dimension: dim,
-      from: { x: spawn.x - 4, y: spawn.y - 4, z: spawn.z - 4 },
-      to: { x: spawn.x + 4, y: spawn.y + 4, z: spawn.z + 4 },
-    });
-  }
-
-  player.teleport(spawn, { dimension: dim });
-
-  world.tickingAreaManager.removeTickingArea(tickingAreaId);
+  player.tryTeleport(spawn, { dimension: dim });
 }
 
 function getReturnLocation(player, onlyWorldSpawnpoint = false) {

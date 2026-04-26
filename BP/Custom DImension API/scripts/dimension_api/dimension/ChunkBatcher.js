@@ -6,20 +6,20 @@ export class ChunkBatcher {
     this.maxChunks = maxChunks;
     this.onChunkBehaviour = null;
     this.chunkSize = 16;
+    this.chunksGenerated = 0;
+    this.chunkPositions = this._generateChunkPositions();
   }
 
   batchChunks() {
     try {
-      const chunkPositions = this._generateChunkPositions();
-
       if (typeof this.onChunkBehaviour != "function") return;
 
-      for (let i = 0; i <= this.maxChunks; i++) {
+      for (let i = this.chunksGenerated; i <= this.maxChunks; i++) {
         system.runTimeout(() => {
           world.sendMessage(`Chunk ${i} gerada.`);
-          const x = chunkPositions[i][0];
-          const y = chunkPositions[i][1];
-          const z = chunkPositions[i][2];
+          const x = this.chunkPositions[i][0];
+          const y = this.chunkPositions[i][1];
+          const z = this.chunkPositions[i][2];
           const chunkLoc = { x: x, y: y, z: z };
           this.onChunkBehaviour(chunkLoc);
         }, i * 5);
