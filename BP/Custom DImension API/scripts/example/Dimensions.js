@@ -17,11 +17,13 @@ const dimension1 = new CustomDimension(
   ),
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
-  ReliefType.MOUNTAINS,
-  WorldType.NETHER
+  ReliefType.PLAINS,
+  WorldType.OVERWORLD
 );
 
 dimension1.canSpawnVanillaMobs = false;
+dimension1.canGenerateVanillaOres = false;
+dimension1.canGenerateCommonFeatures = false;
 dimension1.maxChunks = 128;
 //dimension1.dimensionFog = "minecraft:fog_crimson_forest";
 dimension1.onEnters = (dim, player) => {

@@ -1,5 +1,10 @@
+import { world } from '@minecraft/server';
 import { ChunkBatcher } from './ChunkBatcher.js';
 import { VerticalChunkSize, ReliefType, WorldType } from "./CustomDimension.js";
+import { FeaturesManager } from './FeaturesManager.js'
+import { detectSurfaceFloor } from "../utils/Utils.js";
+
+const featuresManager = new FeaturesManager();
 
 export class ChunkGenerator {
   constructor(dimension, dimClass) {
@@ -34,9 +39,42 @@ export class ChunkGenerator {
       this._setChunkMaterials(loc);
     }
 
+    this._generateCustomFeatures(loc);
+
     this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
     this.dimension.runCommand(`tickingarea remove temp`);
   }
+
+  _generateCustomFeatures(loc) {
+    if (featuresManager.features.length === 0) return;
+    
+    let surfaceHeight = detectSurfaceFloor(this.dimension, loc, this.dimClass.terrainMaterials.topMaterial, -10, 100);
+    
+    try {
+      const sampleLoc = { x: loc.x + 8, y: 256, z: loc.z + 8 };
+      let checkY = 256;
+      while (checkY > 0) {
+        const block = this.dimension.getBlock({ x: sampleLoc.x, y: checkY, z: sampleLoc.z });
+        if (block && !block.isAir) {
+          surfaceHeight = checkY;
+          break;
+        }
+        checkY--;
+      }
+    } catch (error) {
+    }
+    
+    const generated = featuresManager.generateFeaturesForChunk(
+      this.dimension, 
+      this.dimClass, 
+      loc, 
+      surfaceHeight
+    );
+    
+    if (generated > 0) {
+      world.sendMessage(`§7Total de features geradas na chunk: ${generated}`);
+    }
+}
 
   _setChunkMaterials(loc) {
     this.dimension.placeFeatureRule("custom_dim:dirt_features", loc);
