@@ -33,7 +33,7 @@ world.afterEvents.itemStartUseOn.subscribe((event) => {
         //NETHER TYPE
         dimension.setBlockType
         if (portal.type == PortalType.NETHER) {
-            if (item.typeId == portal.lightWithItem) {
+            if (item && item.typeId == portal.lightWithItem) {
                 const block = dimension.getBlock(blockLocation);
 
                 if (block.typeId == portal.frameBlock) {
