@@ -1,3 +1,9 @@
+export const PortalType = {
+    NETHER: 'nether',
+    THE_END: 'the_end',
+    CUSTOM: 'custom'
+};
+
 export class CustomPortal {
     constructor(namespace, type, frameBlock, portalBlock, lightWithItem, destDimID, hasLightning) {
         this.namespace = namespace;
@@ -37,9 +43,3 @@ export class CustomPortalManager {
         return this.portals.find(portal => portal.portalBlock === portalBlock);
     }
 }
-
-export const PortalType = {
-    NETHER: 'nether',
-    THE_END: 'the_end',
-    CUSTOM: 'custom'
-};

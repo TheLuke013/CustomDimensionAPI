@@ -1,3 +1,4 @@
+import { world, system } from "@minecraft/server";
 import {
   FeaturesManager,
   Feature,
@@ -16,25 +17,18 @@ const feature = new Feature(
 );
 feature.addToDimension("custom_dim:dimension_1");
 
-const feature3 = new Feature(
-  "minecraft:amethyst_geode_feature",
-  FeatureType.FEATURE,
-  HeightRange.UNDERGROUND,
-  1,
-  0.1,
-);
-feature3.addToDimension("custom_dim:dimension_1");
-
-const feature4 = new Feature(
-  "mystructure:mantis_nest",
-  FeatureType.STRUCTURE,
+const feature2 = new Feature(
+  "custom_dim:custom_tree",
+  FeatureType.CUSTOM,
   HeightRange.SURFACE,
-  1,
+  5,
   0.1,
 );
-feature4.addToDimension("custom_dim:dimension_1");
+feature2.onGenerate = (dimension, location) => {
+    
+};
+feature2.addToDimension("custom_dim:dimension_1");
 
 
 featuresManager.registerFeature(feature);
-featuresManager.registerFeature(feature3);
-featuresManager.registerFeature(feature4);
+//featuresManager.registerFeature(feature2);

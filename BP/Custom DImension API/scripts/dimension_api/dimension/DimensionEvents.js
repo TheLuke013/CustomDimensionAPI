@@ -2,7 +2,6 @@ import { world, system } from "@minecraft/server";
 import { CustomDimensionManager, GenerationType } from "./CustomDimension.js";
 import { generatePortal } from "./PortalGenerator.js";
 import { ChunkGenerator } from "./ChunkGenerator.js"
-import { ChunkBatcher } from './ChunkBatcher.js';
 import { detectSurfaceFloor } from "../utils/Utils.js";
 
 const dimManager = new CustomDimensionManager();

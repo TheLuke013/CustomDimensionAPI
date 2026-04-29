@@ -1,5 +1,5 @@
 //PORTAL
-import './dimension_api/portal/PortalManager.js';
+import './dimension_api/portal/PortalEvents.js';
 import './dimension_api/portal/Teleporter.js';
 import './dimension_api/portal/CustomComponents.js';
 import './dimension_api/portal/CustomPortal.js';

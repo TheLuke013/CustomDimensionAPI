@@ -1,6 +1,18 @@
 import { world } from '@minecraft/server';
 import { detectSurfaceFloor } from "../utils/Utils.js";
 
+export const HeightRange = {
+  SURFACE: 'surface',
+  UNDERGROUND: 'underground',
+  ANY: 'any',
+};
+
+export const FeatureType = {
+  FEATURE: 'feature',
+  STRUCTURE: 'structure',
+  CUSTOM: 'custom'
+};
+
 export class Feature {
   constructor(namespace, featureType, heightRange, iterations, chance) {
     this.namespace = namespace;
@@ -9,6 +21,7 @@ export class Feature {
     this.iterations = iterations;
     this.chance = chance;
     this.dimensions = [];
+    this.onGenerate = null;
   }
 
   addToDimension(dimensionNamespace) {
@@ -73,6 +86,10 @@ export class Feature {
           dimension.placeFeature(this.namespace, featureLoc);
         } else if (this.featureType === FeatureType.STRUCTURE) {
           world.structureManager.place(this.namespace, dimension, featureLoc);
+        } else if (this.featureType === FeatureType.CUSTOM) {
+          if (typeof this.onGenerate === "function") {
+            this.onGenerate(dimension, featureLoc);
+          }
         }
         generatedCount++;
       } catch (error) {
@@ -82,17 +99,6 @@ export class Feature {
     return generatedCount;
   }
 }
-
-export const HeightRange = {
-  SURFACE: 'surface',
-  UNDERGROUND: 'underground',
-  ANY: 'any',
-};
-
-export const FeatureType = {
-  FEATURE: 'feature',
-  STRUCTURE: 'structure'
-};
 
 export class FeaturesManager {
   constructor() {

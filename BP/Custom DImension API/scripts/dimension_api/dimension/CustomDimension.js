@@ -8,6 +8,35 @@ system.beforeEvents.startup.subscribe((event) => {
   });
 });
 
+export const VerticalChunkSize = {
+    HIGH: 'high',       //128 heigh
+    MEDIUM: 'medium',   //64 heigh
+    LOW: 'low'          //32 heigh
+};
+
+export const GenerationType = {
+  FIXED: 'fixed',           //dimension size limited
+  DYNAMIC: 'dynamic'        //dimension infinite size
+};
+
+export const ReliefType = {
+  FLAT: 'flat',                           //totalmente plano
+  HILLS: 'hills',                         //colinas suaves
+  MOUNTAINS: 'mountains',                 //montanhas altas
+  PLAINS: 'plains',                       //planícies levemente onduladas
+  ISLAND_CHAIN: 'island_chain',           //cadeia de ilhas
+  OCEAN: 'ocean',                         //oceano profundo
+  HILLS_WITH_RIVERS: 'hills_with_rivers',  //colinas suaves com rios sinuosos
+  NONE: 'none'                            //sem relevo, apenas os materiais da chunk base
+};
+
+export const WorldType = {
+  OVERWORLD: 'overworld',
+  NETHER: 'nether',
+  END: 'end',
+  CUSTOM: 'custom'
+};
+
 export class CustomDimension {
   constructor(
     namespace,
@@ -53,35 +82,6 @@ export class TerrainMaterials {
     this.baseMaterial = baseMat;
   }
 }
-
-export const VerticalChunkSize = {
-    HIGH: 'high',       //128 heigh
-    MEDIUM: 'medium',   //64 heigh
-    LOW: 'low'          //32 heigh
-};
-
-export const GenerationType = {
-  FIXED: 'fixed',           //dimension size limited
-  DYNAMIC: 'dynamic'        //dimension infinite size
-};
-
-export const ReliefType = {
-  FLAT: 'flat',                           //totalmente plano
-  HILLS: 'hills',                         //colinas suaves
-  MOUNTAINS: 'mountains',                 //montanhas altas
-  PLAINS: 'plains',                       //planícies levemente onduladas
-  ISLAND_CHAIN: 'island_chain',           //cadeia de ilhas
-  OCEAN: 'ocean',                         //oceano profundo
-  HILLS_WITH_RIVERS: 'hills_with_rivers',  //colinas suaves com rios sinuosos
-  NONE: 'none'                            //sem relevo, apenas os materiais da chunk base
-};
-
-export const WorldType = {
-  OVERWORLD: 'overworld',
-  NETHER: 'nether',
-  END: 'end',
-  CUSTOM: 'custom'
-};
 
 export class CustomDimensionManager {
   constructor() {

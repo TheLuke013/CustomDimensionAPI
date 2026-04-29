@@ -1,5 +1,5 @@
 import { world } from '@minecraft/server';
-import { ChunkBatcher } from './ChunkBatcher.js';
+import { ChunkSpiralGenerator } from './ChunkSpiralGenerator.js';
 import { VerticalChunkSize, ReliefType, WorldType } from "./CustomDimension.js";
 import { FeaturesManager } from './FeaturesManager.js'
 import { detectSurfaceFloor } from "../utils/Utils.js";
@@ -10,18 +10,18 @@ export class ChunkGenerator {
   constructor(dimension, dimClass) {
     this.dimension = dimension;
     this.dimClass = dimClass;
-    this.chunkBatcher = new ChunkBatcher(dimClass.spawnLoc, dimClass.maxChunks);
+    this.chunkSpiralGenerator = new ChunkSpiralGenerator(dimClass.spawnLoc, dimClass.maxChunks);
   }
 
   generateAllChunks() {
-    this.chunkBatcher.onChunkBehaviour = (chunkLoc) => {
+    this.chunkSpiralGenerator.onChunkBehaviour = (chunkLoc) => {
       this.generateChunk(chunkLoc);
       if (typeof this.dimClass.onChunkGeneration === "function") {
         this.dimClass.onChunkGeneration(this.dimension, chunkLoc);
       }
     };
 
-    this.chunkBatcher.batchChunks();
+    this.chunkSpiralGenerator.generateChunks();
   }
 
   generateChunk(loc) {
@@ -44,7 +44,7 @@ export class ChunkGenerator {
     this.dimension.runCommand(`tickingarea add circle ${loc.x} ${loc.y} ${loc.z} 4 temp`);
     this.dimension.runCommand(`tickingarea remove temp`);
 
-    this.chunkBatcher.chunksGenerated++;
+    this.chunkSpiralGenerator.chunksGenerated++;
   }
 
   _generateCustomFeatures(loc) {

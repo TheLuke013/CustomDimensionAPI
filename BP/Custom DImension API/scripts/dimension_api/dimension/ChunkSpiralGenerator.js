@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server";
 
-export class ChunkBatcher {
+export class ChunkSpiralGenerator {
   constructor(location, maxChunks) {
     this.location = location;
     this.maxChunks = maxChunks;
@@ -10,7 +10,7 @@ export class ChunkBatcher {
     this.chunkPositions = this._generateChunkPositions();
   }
 
-  batchChunks() {
+  generateChunks() {
     try {
       if (typeof this.onChunkBehaviour != "function") return;
 

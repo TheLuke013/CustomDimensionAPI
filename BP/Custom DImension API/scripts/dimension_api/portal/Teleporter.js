@@ -5,30 +5,56 @@ import { CustomDimensionManager } from "../dimension/CustomDimension.js";
 const dimManager = new CustomDimensionManager();
 const portalManager = new CustomPortalManager();
 
-let currentTime = 0;
-const targetTime = 5;
+const targetTime = 20;
+const playersPortalCooldown = new Map();
 
 system.runInterval(() => {
   const players = world.getPlayers();
-  try {
-    players.forEach((player) => {
-      const playerCenterBlock = player.dimension.getBlock(player.location);
-      if (
-        !player.getTags().includes("teleporting_dim") &&
-        portalManager.getPortalByBlock(playerCenterBlock.typeId)
-      ) {
-        const msg = {
+  
+  players.forEach((player) => {
+    const playerCenterBlock = player.dimension.getBlock(player.location);
+    
+    const isOnPortal = !player.getTags().includes("teleporting_dim") && 
+                       portalManager.getPortalByBlock(playerCenterBlock.typeId);
+    
+    if (!isOnPortal) {
+      if (playersPortalCooldown.has(player.id)) {
+        playersPortalCooldown.delete(player.id);
+      }
+      return;
+    }
+
+    let canTeleport = true;
+    
+    if (player.matches({ gameMode: GameMode.Survival })) {
+      canTeleport = false;
+      player.addEffect("minecraft:nausea", 100, { amplifier: 255, showParticles: false });
+      player.playSound("portal.trigger");
+
+      let currentTime = playersPortalCooldown.get(player.id) || 0;
+      
+      currentTime++;
+      playersPortalCooldown.set(player.id, currentTime);
+      
+      if (currentTime >= targetTime) {
+        canTeleport = true;
+        playersPortalCooldown.delete(player.id);
+      }
+    }
+
+    if (canTeleport) {
+      const msg = {
           mobId: player.id,
           portal: portalManager.getPortalByBlock(playerCenterBlock.typeId),
         };
-
+        
         system.sendScriptEvent(
           "custom_dim:dim_teleporter",
-          JSON.stringify(msg),
+          JSON.stringify(msg)
         );
       }
-    });
-  } catch (e) {}
+  });
+  
 }, 5);
 
 system.afterEvents.scriptEventReceive.subscribe((e) => {
