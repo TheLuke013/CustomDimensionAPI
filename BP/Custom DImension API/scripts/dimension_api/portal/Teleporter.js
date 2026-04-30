@@ -15,7 +15,7 @@ system.runInterval(() => {
     const playerCenterBlock = player.dimension.getBlock(player.location);
     
     const isOnPortal = !player.getTags().includes("teleporting_dim") && 
-                       portalManager.getPortalByBlock(playerCenterBlock.typeId);
+                       playerCenterBlock && portalManager.getPortalByBlock(playerCenterBlock.typeId);
     
     if (!isOnPortal) {
       if (playersPortalCooldown.has(player.id)) {

@@ -35,7 +35,7 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
     if (!dimGenerated) chunkGen.generateChunk(toLoc);
 
     //teleporta jogador para altura de spawn da dimensao
-    const delay = dimGenerated ? 5 : 20;
+    const delay = dimGenerated ? 15 : 20;
     system.runTimeout(() => {
       const height = detectSurfaceFloor(to, toLoc, dimClass.terrainMaterials.topMaterial, -10, 100);
       player.teleport({ x: toLoc.x, y: height, z: toLoc.z }, { dimension: to });

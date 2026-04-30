@@ -7,3 +7,4 @@ import './dimension_api/portal/CustomPortal.js';
 //DIMENSION
 import './dimension_api/dimension/CustomDimension.js';
 import './dimension_api/dimension/DimensionEvents.js';
+import './dimension_api/dimension/ProceduralGeneration.js';

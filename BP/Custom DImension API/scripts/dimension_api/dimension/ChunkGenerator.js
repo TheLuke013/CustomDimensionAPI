@@ -74,7 +74,7 @@ export class ChunkGenerator {
     );
     
     if (generated > 0) {
-      world.sendMessage(`§7Total de features geradas na chunk: ${generated}`);
+      //world.sendMessage(`§7Total de features geradas na chunk: ${generated}`);
     }
 }
 

@@ -4,6 +4,7 @@ import {
   TerrainMaterials,
   VerticalChunkSize,
   ReliefType,
+  GenerationType,
   WorldType
 } from "../dimension_api/dimension/CustomDimension";
 
@@ -18,7 +19,8 @@ const dimension1 = new CustomDimension(
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
   ReliefType.PLAINS,
-  WorldType.OVERWORLD
+  WorldType.OVERWORLD,
+  GenerationType.DYNAMIC
 );
 
 dimension1.canSpawnVanillaMobs = false;
