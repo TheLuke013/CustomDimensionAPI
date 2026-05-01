@@ -1,5 +1,6 @@
 import { world } from '@minecraft/server';
 import { ChunkSpiralGenerator } from './ChunkSpiralGenerator.js';
+import { ChunkRingGenerator } from './ChunkRingGenerator.js'
 import { VerticalChunkSize, ReliefType, WorldType } from "./CustomDimension.js";
 import { FeaturesManager } from './FeaturesManager.js'
 import { detectSurfaceFloor } from "../utils/Utils.js";
@@ -11,6 +12,7 @@ export class ChunkGenerator {
     this.dimension = dimension;
     this.dimClass = dimClass;
     this.chunkSpiralGenerator = new ChunkSpiralGenerator(dimClass.spawnLoc, dimClass.maxChunks);
+    this.chunkRingGenerator = new ChunkRingGenerator(dimClass.spawnLoc, dimClass.maxChunks);
   }
 
   generateAllChunks() {

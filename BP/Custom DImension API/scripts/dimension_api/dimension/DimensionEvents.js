@@ -96,7 +96,17 @@ world.afterEvents.itemUse.subscribe((e) => {
 
   if (item.typeId === "minecraft:bow") {
     const dimClass = dimManager.getDimension('custom_dim:dimension_1')
+
+    //configuracao
     const chunkGen = new ChunkGenerator(dim, dimClass);
-    chunkGen.generateAllChunks();
+    chunkGen.chunkRingGenerator.maxChunks = 20;
+    chunkGen.chunkRingGenerator.location = e.source.location;
+
+    //geracao
+    chunkGen.chunkRingGenerator.onChunkBehaviour = (chunkLoc) => {
+      chunkGen.generateChunk(chunkLoc);
+    }
+
+    chunkGen.chunkRingGenerator.generateChunks();
   }
 });

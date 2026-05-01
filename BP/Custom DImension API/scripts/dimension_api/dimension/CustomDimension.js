@@ -16,7 +16,8 @@ export const VerticalChunkSize = {
 
 export const GenerationType = {
   FIXED: 'fixed',           //dimension size limited
-  DYNAMIC: 'dynamic'        //dimension infinite size
+  DYNAMIC: 'dynamic',        //dimension infinite size
+  CUSTOM: 'custom'          //dimension size and generation controlled by onChunkGeneration callback
 };
 
 export const ReliefType = {
