@@ -44,7 +44,8 @@ const dimension2 = new CustomDimension(
   { x: 0, y: 64, z: 0 },
   VerticalChunkSize.LOW,
   ReliefType.NONE,
-  WorldType.END
+  WorldType.END,
+  GenerationType.DYNAMIC
 );
 
 dimension2.canSpawnVanillaMobs = false;

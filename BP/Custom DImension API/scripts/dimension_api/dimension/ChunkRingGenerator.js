@@ -1,4 +1,4 @@
-import { world, system } from "@minecraft/server";
+import { system } from "@minecraft/server";
 
 export class ChunkRingGenerator {
   constructor(location, maxChunks) {
@@ -6,64 +6,63 @@ export class ChunkRingGenerator {
     this.maxChunks = maxChunks;
     this.onChunkBehaviour = null;
     this.chunkSize = 16;
+    this.positions = null; // Cache das posições
   }
 
-  generateChunks() {
+  generateChunks(predefinedPositions = null) {
     try {
       if (typeof this.onChunkBehaviour != "function") return;
-
-      let generated = 0;
       
-      for (let i = 0; i <= this.maxChunks; i++) {
+      // PRÉ-CALCULA UMA ÚNICA VEZ
+      if (predefinedPositions) {
+        this.positions = predefinedPositions;
+      } else {
+        this.positions = this._generateSpiralPositions();
+      }
+      
+      // Apenas itera sobre as posições pré-calculadas
+      for (let i = 0; i <= this.maxChunks && i < this.positions.length; i++) {
         system.runTimeout(() => {
-          const chunkPos = this._getChunkPosition(i);
-          this.onChunkBehaviour(chunkPos);
-          //world.sendMessage(`Generated chunk ${i + 1}`);
+          this.onChunkBehaviour(this.positions[i]);
         }, i * 5);
       }
     } catch (e) {
+      console.warn("Erro:", e);
     }
   }
 
-  _getChunkPosition(index) {
-    const ring = Math.floor(Math.sqrt(index));
-    const ringStart = ring * ring;
-    const ringSize = ring * 2 + 1;
-    const positionInRing = index - ringStart;
+  _generateSpiralPositions() {
+    const positions = [{ x: 0, z: 0 }]; // Centro
     
-    const side = Math.floor(positionInRing / ringSize);
-    const posOnSide = positionInRing % ringSize - ring;
-    
-    let dx = 0, dz = 0;
-    
-    switch(side) {
-      case 0:
-        dx = ring;
-        dz = posOnSide;
-        break;
-      case 1:
-        dx = -posOnSide;
-        dz = ring;
-        break;
-      case 2:
-        dx = -ring;
-        dz = -posOnSide;
-        break;
-      case 3:
-        dx = posOnSide;
-        dz = -ring;
-        break;
+    for (let step = 1; positions.length <= this.maxChunks; step++) {
+      // Direita
+      for (let i = 0; i < step && positions.length <= this.maxChunks; i++) {
+        const last = positions[positions.length - 1];
+        positions.push({ x: last.x + this.chunkSize, z: last.z });
+      }
+      // Cima
+      for (let i = 0; i < step && positions.length <= this.maxChunks; i++) {
+        const last = positions[positions.length - 1];
+        positions.push({ x: last.x, z: last.z - this.chunkSize });
+      }
+      step++;
+      // Esquerda
+      for (let i = 0; i < step && positions.length <= this.maxChunks; i++) {
+        const last = positions[positions.length - 1];
+        positions.push({ x: last.x - this.chunkSize, z: last.z });
+      }
+      // Baixo
+      for (let i = 0; i < step && positions.length <= this.maxChunks; i++) {
+        const last = positions[positions.length - 1];
+        positions.push({ x: last.x, z: last.z + this.chunkSize });
+      }
     }
     
-    if (index === 0) {
-      dx = 0;
-      dz = 0;
-    }
-    
-    return {
-      x: this.location.x + dx * this.chunkSize,
+    // Converte para coordenadas reais do mundo
+    return positions.map(pos => ({
+      x: this.location.x + pos.x,
       y: this.location.y,
-      z: this.location.z + dz * this.chunkSize
-    };
+      z: this.location.z + pos.z
+    }));
   }
 }

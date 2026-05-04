@@ -41,6 +41,8 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
       player.teleport({ x: toLoc.x, y: height, z: toLoc.z }, { dimension: to });
     }, delay);
 
+    dimClass.readyToGenerate = true;
+
     //quando a dimensao gera pela primeira vez
     if (!dimGenerated) {
       world.setDynamicProperty(`${dimClass.namespace}_generated`, true);

@@ -67,6 +67,7 @@ export class CustomDimension {
     this.onEnters = null;
     this.onLeaves = null;
     this.onChunkGeneration = null;
+    this.readyToGenerate = false;
   }
 }
 

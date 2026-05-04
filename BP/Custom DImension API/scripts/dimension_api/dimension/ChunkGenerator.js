@@ -13,6 +13,7 @@ export class ChunkGenerator {
     this.dimClass = dimClass;
     this.chunkSpiralGenerator = new ChunkSpiralGenerator(dimClass.spawnLoc, dimClass.maxChunks);
     this.chunkRingGenerator = new ChunkRingGenerator(dimClass.spawnLoc, dimClass.maxChunks);
+    //world.sendMessage(`ChunkGenerator initialized for dimension ${dimension.id}`);
   }
 
   generateAllChunks() {
