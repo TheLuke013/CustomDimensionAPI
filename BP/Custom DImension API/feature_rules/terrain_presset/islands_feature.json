@@ -20,15 +20,21 @@
             ]
 		},
 		"distribution": {
-			"iterations": "t.tile_size_x = 256; t.tile_size_z = 256; t.tile_origin_x = t.tile_size_x * math.floor(v.originx / t.tile_size_x); t.tile_origin_z = t.tile_size_z * math.floor(v.originz / t.tile_size_z); t.tile_center_x = t.tile_origin_x + t.tile_size_x / 2; t.tile_center_z = t.tile_origin_z + t.tile_size_z / 2; t.tile_offset = 195 + 64 * query.noise( t.tile_center_x, t.tile_center_z ); return t.tile_offset;",
-            "x": {
-                "extent": [0, 15],
-                "distribution": "fixed_grid"
-            },
+			"iterations": "t.tile_size_x = 256; t.tile_size_z = 256; t.tile_origin_x = t.tile_size_x * math.floor(v.originx / t.tile_size_x); t.tile_origin_z = t.tile_size_z * math.floor(v.originz / t.tile_size_z); t.tile_center_x = t.tile_origin_x + t.tile_size_x / 2; t.tile_center_z = t.tile_origin_z + t.tile_size_z / 2; t.tile_offset = 195 + 64 * query.noise( t.tile_center_x, t.tile_center_z ); return ((v.originx && v.originz)*256); ",
             "y": 32,
+            "x": {
+                "distribution": "fixed_grid",
+                "extent": [
+                    0,
+                    15
+                ]
+            },
             "z": {
-                "extent": [0, 15],
-                "distribution": "fixed_grid"
+                "distribution": "fixed_grid",
+                "extent": [
+                    0,
+                    15
+                ]
             }
 		}
 	}

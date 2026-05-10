@@ -39,9 +39,10 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
     system.runTimeout(() => {
       const height = detectSurfaceFloor(to, toLoc, dimClass.terrainMaterials.topMaterial, -10, 100);
       player.teleport({ x: toLoc.x, y: height, z: toLoc.z }, { dimension: to });
+      
+      dimClass.readyToGenerate = true;
+      world.setDynamicProperty(`${dimClass.namespace}_ready`, true);
     }, delay);
-
-    dimClass.readyToGenerate = true;
 
     //quando a dimensao gera pela primeira vez
     if (!dimGenerated) {
@@ -92,7 +93,8 @@ world.afterEvents.entitySpawn.subscribe((e) => {
   } catch (e) {}
 });
 
-world.afterEvents.itemUse.subscribe((e) => {
+// === DEBUG === //
+/*world.afterEvents.itemUse.subscribe((e) => {
   const dim = e.source.dimension;
   const item = e.itemStack;
 
@@ -111,4 +113,4 @@ world.afterEvents.itemUse.subscribe((e) => {
 
     chunkGen.chunkRingGenerator.generateChunks();
   }
-});
+});*/

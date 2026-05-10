@@ -22,6 +22,7 @@ const CHUNK_SIZE = 16;
 const GENERATION_RADIUS = 4; // Raio de chunks ao redor do jogador
 const CHUNKS_PER_TICK = 2; // Limite de chunks por tick
 const SCAN_INTERVAL = 10; // Ticks entre scans
+const CAN_GENERATE_TICK = 200;
 
 function getChunkKey(x, z) {
   const cx = Math.floor(x / CHUNK_SIZE);
@@ -253,3 +254,18 @@ world.afterEvents.playerLeave.subscribe((event) => {
     }
   }
 });
+
+// Verifica se dimensões estão prontas para gerar chunks
+system.runInterval(() => {
+  const players = world.getPlayers();
+  players.forEach(player => {
+    const dimension = player.dimension;
+    const dimClass = dimManager.getDimension(dimension.id);
+    if (dimClass && !dimClass.readyToGenerate && world.getDynamicProperty(`${dimClass.namespace}_ready`)) {
+      system.runTimeout(() => {
+        dimClass.readyToGenerate = true;
+        //world.sendMessage(`Dimensão ${dimClass.namespace} pronta para gerar chunks!`);
+      }, 100);
+    }
+  });
+}, CAN_GENERATE_TICK);

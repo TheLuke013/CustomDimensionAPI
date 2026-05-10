@@ -1,7 +1,7 @@
 import os
 import shutil
 
-minecraft_path_roaming = os.path.join(os.getenv("APPDATA"), "Minecraft Bedrock Preview\\Users\\Shared\\games\\com.mojang\\")
+minecraft_path_roaming = os.path.join(os.getenv("APPDATA"), "Minecraft Bedrock\\Users\\Shared\\games\\com.mojang\\")
 
 rp_path = os.path.join(minecraft_path_roaming, "development_resource_packs")
 bp_path = os.path.join(minecraft_path_roaming, "development_behavior_packs")
