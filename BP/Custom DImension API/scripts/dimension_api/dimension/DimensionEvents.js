@@ -16,6 +16,7 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
   if (dimManager.getDimension(to.id)) {
     const dimClass = dimManager.getDimension(to.id);
     const chunkGen = new ChunkGenerator(to, dimClass);
+    const maxChunks = dimClass.maxChunks;
 
     //chama função para quando entra na dimensao
     if (typeof dimClass.onEnters === "function") {
@@ -31,15 +32,22 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
 
     const dimGenerated = world.getDynamicProperty(`${dimClass.namespace}_generated`);
     
+    //gera o portal imediatamente antes da geração de outras chunks
+    if (!dimGenerated && dimClass.canGeneratePortal) {
+      generatePortal(dimClass.namespace, toLoc, to);
+    }
+
     //gera a chunk onde o jogador spawnou
-    if (!dimGenerated) chunkGen.generateChunk(toLoc);
+    if (!dimGenerated && dimClass.worldType !== WorldType.END) {
+      chunkGen.generateChunk(toLoc);
+    }
 
     //teleporta jogador para altura de spawn da dimensao
     if (dimClass.worldType !== WorldType.END) {
-      const delay = dimGenerated ? 15 : 20;
+      const delay = dimGenerated ? 15 : 40;
       system.runTimeout(() => {
-        const height = detectSurfaceFloor(to, toLoc, dimClass.terrainMaterials.topMaterial, -10, 100);
-        player.teleport({ x: toLoc.x, y: height, z: toLoc.z }, { dimension: to });
+        const height = detectSurfaceFloor(to, dimClass.spawnLoc, dimClass.terrainMaterials.topMaterial, -10, 100);
+        player.teleport({ x: dimClass.spawnLoc.x, y: height, z: dimClass.spawnLoc.z }, { dimension: to });
       }, delay);
     }
 
@@ -48,20 +56,21 @@ world.afterEvents.playerDimensionChange.subscribe((e) => {
           dimClass.readyToGenerate = true;
           world.setDynamicProperty(`${dimClass.namespace}_ready`, true);
         }
-      }, 40);
+      }, 45);
 
     //quando a dimensao gera pela primeira vez
     if (!dimGenerated) {
       world.setDynamicProperty(`${dimClass.namespace}_generated`, true);
 
-      //gera as chunks fixas
-      if (dimClass.generationType === GenerationType.FIXED && dimClass.worldType !== WorldType.END) {    
-        chunkGen.generateAllChunks();
+      //gera o portal imediatamente, antes de outras tarefas pesadas
+      if (dimClass.canGeneratePortal) {
+        generatePortal(dimClass.namespace, toLoc, to);
       }
 
-      //gera o portal
-      if (dimClass.canGeneratePortal) {
-        system.runTimeout(() => { generatePortal(dimClass.namespace, toLoc, to); }, 100);
+      //gera as chunks fixas
+      if (dimClass.generationType === GenerationType.FIXED) {
+        chunkGen.chunkSpiralGenerator.maxChunks = maxChunks; 
+        chunkGen.generateAllChunks();
       }
 
       //chama a funcao da primeia geração da dimensao

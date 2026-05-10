@@ -16,7 +16,7 @@ const dimension1 = new CustomDimension(
   new TerrainMaterials(
     
   ),
-  { x: 0, y: 64, z: 0 },
+  { x: 8, y: 64, z: 8 },
   VerticalChunkSize.LOW,
   ReliefType.PLAINS,
   WorldType.OVERWORLD,
